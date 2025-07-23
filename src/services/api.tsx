@@ -20,8 +20,8 @@ apiClient.interceptors.request.use((config) => {
 })
 
 apiClient.interceptors.response.use(
-    (respose) => {
-        return respose
+    (response) => {
+        return response
     },
     (error: AxiosError) => {
         if (error.response?.status === 401) {
@@ -32,6 +32,22 @@ apiClient.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+interface AuthResponse {
+    token: string;
+    user: {
+        id: string;
+        username: string;
+        email: string;
+        password: string;
+        fullName: string;
+        bio: string,
+        avatar: string | null;
+        followersCount: number;
+        followingCount: number;
+        postsCount: number;
+    }
+}
 
 interface UserData {
     username: string;
@@ -47,27 +63,73 @@ interface Credential {
 }
 
 
-interface AuthResponse {
-    token: string;
+interface UserProfile {
+    id: string;
+    username: string;
+    fullName: string;
+    bio: string;
+    avatar: string | null;
+    followersCount: number;
+    followingCount: number;
+    postsCount: number;
+    createdAt: string;
+    isFollowing: boolean;
+}
+
+
+interface UpdateProfile {
+    fullName: string;
+    bio: string;
+    avatar: string;
 }
 
 
 export const authApi = {
-
-}
-
-
-export const register = async (userData: UserData) => {
-    const response = await apiClient.post('/auth/register', userData)
-    return response
-}
-
-
-export const login = async (credential: Credential): Promise<AuthResponse> => {
-    const response = await apiClient.post<AuthResponse>('/auth/login', credential)
-    if (response.data.token) {
-        localStorage.setItem('token', response.data.token)
+    register: async (userData: UserData): Promise<AuthResponse> => {
+        const response = await apiClient.post<AuthResponse>('/auth/register', userData)
+        return response.data
+    },
+    login: async (credential: Credential): Promise<AuthResponse> => {
+        const response = await apiClient.post<AuthResponse>('/auth/login', credential)
+        return response.data
     }
-    return response.data
 }
 
+export const userApi = {
+    getProfile: async (): Promise<UserProfile> => {
+        const response = await apiClient.get<UserProfile>('/users/profile')
+        return response.data
+    },
+    updatePofile: async (formData: UpdateProfile): Promise<UserProfile> => {
+        const response = await apiClient.post<UserProfile>('/users/profile', formData)
+        return response.data
+    },
+    searchUser: async (username: string): Promise<UserProfile> => {
+        const response = await apiClient.get<UserProfile>(`/users/${username}`)
+        return response.data
+    },
+    followUser: async (userId: string): Promise<UserProfile> => {
+        const response = await apiClient.post<UserProfile>(`/users/${userId}/follow`)
+        return response.data
+    },
+    unfollowUser: async (userId: string): Promise<UserProfile> => {
+        const response = await apiClient.delete<UserProfile>(`/users/${userId}/follow`)
+        return response.data
+    }
+}
+
+export const postAPI = {
+    // TODO: UDAH NGANTUK
+}
+
+export const commentAPI = {
+    // TODO: UDAH NGANTUK
+}
+
+export const searchAPI = {
+    // TODO: UDAH NGANTUK
+}
+
+export const feedAPI = {
+    // TODO: UDAH NGANTUK
+}
