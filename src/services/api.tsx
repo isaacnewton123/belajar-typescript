@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData, UserProfile, Comment } from './types';
 
 const baseURL = process.env.VITE_API_URL
 
@@ -33,56 +34,6 @@ apiClient.interceptors.response.use(
     }
 )
 
-interface AuthResponse {
-    token: string;
-    user: {
-        id: string;
-        username: string;
-        email: string;
-        password: string;
-        fullName: string;
-        bio: string,
-        avatar: string | null;
-        followersCount: number;
-        followingCount: number;
-        postsCount: number;
-    }
-}
-
-interface UserData {
-    username: string;
-    email: string;
-    password: string;
-    fullName: string;
-}
-
-
-interface Credential {
-    email: string;
-    password: string;
-}
-
-
-interface UserProfile {
-    id: string;
-    username: string;
-    fullName: string;
-    bio: string;
-    avatar: string | null;
-    followersCount: number;
-    followingCount: number;
-    postsCount: number;
-    createdAt: string;
-    isFollowing: boolean;
-}
-
-
-interface UpdateProfile {
-    fullName: string;
-    bio: string;
-    avatar: string;
-}
-
 
 export const authApi = {
     register: async (userData: UserData): Promise<AuthResponse> => {
@@ -101,7 +52,7 @@ export const userApi = {
         return response.data
     },
     updatePofile: async (formData: UpdateProfile): Promise<UserProfile> => {
-        const response = await apiClient.post<UserProfile>('/users/profile', formData)
+        const response = await apiClient.put<UserProfile>('/users/profile', formData)
         return response.data
     },
     searchUser: async (username: string): Promise<UserProfile> => {
@@ -112,24 +63,63 @@ export const userApi = {
         const response = await apiClient.post<UserProfile>(`/users/${userId}/follow`)
         return response.data
     },
-    unfollowUser: async (userId: string): Promise<UserProfile> => {
-        const response = await apiClient.delete<UserProfile>(`/users/${userId}/follow`)
-        return response.data
+    unfollowUser: async (userId: string): Promise<void> => {
+        await apiClient.delete(`/users/${userId}/follow`)
     }
 }
 
 export const postAPI = {
-    // TODO: UDAH NGANTUK
+    createPost: async (formData: FormPost): Promise<AuthPost> => {
+        const response = await apiClient.post<AuthPost>('/posts', formData)
+        return response.data
+    },
+    getAllPost: async (pages = 1, limit = 10): Promise<AuthPost> => {
+        const response = await apiClient.get<AuthPost>(`/posts?page=${pages}&limit=${limit}`)
+        return response.data
+    },
+    getPost: async (postId: string): Promise<AuthPost> => {
+        const response = await apiClient.get<AuthPost>(`/posts/${postId}`)
+        return response.data
+    },
+    deletePost: async (postId: string): Promise<void> => {
+        await apiClient.delete(`/posts/${postId}`)
+
+    },
+    likePost: async (postId: string): Promise<AuthPost> => {
+        const response = await apiClient.post<AuthPost>(`/posts/${postId}/like`)
+        return response.data
+    },
+    unlikePost: async (postId: string): Promise<void> => {
+        await apiClient.delete(`/posts/${postId}/like`)
+    }
 }
 
 export const commentAPI = {
-    // TODO: UDAH NGANTUK
+    createComment: async (postId: string, content: string): Promise<Comment> => {
+        const response = await apiClient.post<Comment>(`/posts/${postId}/comments`, content)
+        return response.data
+    },
+    getComment: async (postId: string): Promise<Comments> => {
+        const response = await apiClient.get<Comments>(`/posts/${postId}/comments`)
+        return response.data
+    },
+    deleteComment: async (commentId: string): Promise<void> => {
+        await apiClient.delete(`/posts/${commentId}`)
+    }
 }
 
 export const searchAPI = {
-    // TODO: UDAH NGANTUK
+    searchUser: async (query: string): Promise<Search> => {
+        const response = await apiClient.get<Search>(`/search/users?q=${query}`)
+        return response.data
+    }
 }
 
 export const feedAPI = {
-    // TODO: UDAH NGANTUK
+    getFeed: async (page = 1, limit = 10): Promise<Feed> => {
+        const response = await apiClient.get<Feed>(`/feed?page=${page}&limit=${limit}`)
+        return response.data
+    }
 }
+
+export default apiClient;
