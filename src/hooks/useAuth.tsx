@@ -8,7 +8,7 @@ import type { Credential, UserData, UserProfile } from "@/services/types";
 import type { myjwtpayload } from '@/contexts/auth/types'
 
 
-export const AuthHooks = () => {
+export const useAuth = () => {
 
     const { setUser, setLoading } = useAuthContext()
     const navigate = useNavigate()

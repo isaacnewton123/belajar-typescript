@@ -10,27 +10,28 @@ export const PostProvider = ({ children }: AuthProviderProps) => {
     const [hasMore, setHasMore] = useState(false)
 
 
-    useEffect(() => {
-        const fetchPost = async (pages = 1, limit = 10, reset = false) => {
-            try {
-                setLoading(true)
-                const response = await postAPI.getAllPost(pages, limit)
-                const { posts: newPost, hashMore: moreAvailable } = response;
+    const fetchPost = async (pages = 1, limit = 10, reset = false) => {
+        try {
+            setLoading(true)
+            const response = await postAPI.getAllPost(pages, limit)
+            const { posts: newPost, hashMore: moreAvailable } = response;
 
-                if (reset) {
-                    setPosts(newPost)
-                } else {
-                    setPosts((prev) => [...prev, ...newPost])
-                }
-
-                setHasMore(moreAvailable)
-            } catch (error) {
-                console.error("Failed to fetch posts", error)
-                toast.error("Failed to fetch posts")
-            } finally {
-                setLoading(false)
+            if (reset) {
+                setPosts(newPost)
+            } else {
+                setPosts((prev) => [...prev, ...newPost])
             }
+
+            setHasMore(moreAvailable)
+        } catch (error) {
+            console.error("Failed to fetch posts", error)
+            toast.error("Failed to fetch posts")
+        } finally {
+            setLoading(false)
         }
+    }
+
+    useEffect(() => {
         fetchPost(1, 10, true)
     }, [])
 
@@ -40,7 +41,8 @@ export const PostProvider = ({ children }: AuthProviderProps) => {
         loading,
         setLoading,
         hasMore,
-        setHasMore
+        setHasMore,
+        fetchPost
     }
 
     return <PostContext.Provider value={value}>{children}</PostContext.Provider>

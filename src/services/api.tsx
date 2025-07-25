@@ -82,7 +82,6 @@ export const postAPI = {
     },
     deletePost: async (postId: string): Promise<void> => {
         await apiClient.delete(`/posts/${postId}`)
-
     },
     likePost: async (postId: string): Promise<AuthPost> => {
         const response = await apiClient.post<AuthPost>(`/posts/${postId}/like`)

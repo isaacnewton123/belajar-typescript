@@ -24,4 +24,5 @@ export interface PostsContextType {
     setLoading: Dispatch<SetStateAction<boolean>>;
     hasMore: boolean;
     setHasMore: Dispatch<SetStateAction<boolean>>;
+    fetchPost: (pages?: number, limit?: number, reset?: boolean) => Promise<void>
 }
