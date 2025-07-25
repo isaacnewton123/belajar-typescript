@@ -1,3 +1,5 @@
+import type { Post } from "@/contexts/posts/types";
+
 export interface AuthResponse {
     token: string;
     user: UserProfile
@@ -38,7 +40,6 @@ export interface UpdateProfile {
 }
 
 export interface AuthPost {
-
     id: string;
     userId: string;
     content: string;
@@ -47,8 +48,9 @@ export interface AuthPost {
     likesCount: number;
     commentsCount: number;
     user: UserProfile;
-    isLiked: false;
-
+    isLiked: boolean;
+    posts: Post[]
+    hashMore: boolean;
 }
 
 export interface FormPost {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
-import type { AuthProviderProps, myjwtpayload } from "./types";
-import type { AuthResponse, UserProfile } from "@/services/types";
+import type { AuthProviderProps, myjwtpayload } from './types';
+import type { UserProfile } from "@/services/types";
+import { AuthContext } from "./useAuthContext";
 
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -19,6 +20,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 const isExperied = decodedUser.exp * 1000 < Date.now();
                 if (isExperied) {
                     setUser(null)
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('user')
                 } else {
                     setUser(decodedUser as unknown as UserProfile)
                     navigate('/dashboard')
@@ -33,8 +36,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const value = {
         user,
+        setUser,
         loading,
-    }
+        setLoading,
+    };
 
-    return <AuthProvider value={value}>{children}</AuthProvider>
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

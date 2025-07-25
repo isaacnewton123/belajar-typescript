@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData, UserProfile, Comment } from './types';
+import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData, UserProfile, Comment, Credential } from './types';
 
 const baseURL = process.env.VITE_API_URL
 
