@@ -1,4 +1,3 @@
-import type { UserProfile } from "@/services/types";
 import type { ReactNode } from "react";
 
 
@@ -12,8 +11,23 @@ export interface myjwtpayload {
 }
 
 export interface AuthContextType {
-    user: UserProfile | null;
-    setUser: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+    user: User | null;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface User {
+    _id: string;
+    username: string;
+    email: string;
+    password: string;
+    fullName: string;
+    bio: string;
+    avatar: string;
+    followersCount: number;
+    followingCount: number;
+    postsCount: number;
+    createdAt: Date;
+    updatedAt: Date;
 }

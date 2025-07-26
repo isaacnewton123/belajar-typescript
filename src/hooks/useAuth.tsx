@@ -4,8 +4,8 @@ import { useAuthContext } from "@/contexts/auth/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-import type { Credential, UserData, UserProfile } from "@/services/types";
-import type { myjwtpayload } from '@/contexts/auth/types'
+import type { Credential, UserData } from "@/services/types";
+import type { myjwtpayload, User } from '@/contexts/auth/types'
 
 
 export const useAuth = () => {
@@ -21,7 +21,7 @@ export const useAuth = () => {
 
             if (response && response.token) {
                 const decodedData = jwtDecode<myjwtpayload>(response.token)
-                setUser(decodedData as unknown as UserProfile)
+                setUser(decodedData as unknown as User)
                 toast.success('Login Success')
                 navigate('/dashboard')
             } else {

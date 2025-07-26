@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
-import type { AuthProviderProps, myjwtpayload } from './types';
-import type { UserProfile } from "@/services/types";
+import type { AuthProviderProps, myjwtpayload, User } from './types';
 import { AuthContext } from "./useAuthContext";
 
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<UserProfile | null>(null)
+    const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                     localStorage.removeItem('token')
                     localStorage.removeItem('user')
                 } else {
-                    setUser(decodedUser as unknown as UserProfile)
+                    setUser(decodedUser as unknown as User)
                     navigate('/dashboard')
                 }
             } catch (error) {

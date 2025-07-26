@@ -6,6 +6,7 @@ import { PostContext } from "./usePostContext";
 
 export const PostProvider = ({ children }: AuthProviderProps) => {
     const [posts, setPosts] = useState<Post[]>([])
+    const [singlePost, setSinglePost] = useState<Post|null>(null)
     const [loading, setLoading] = useState(true)
     const [hasMore, setHasMore] = useState(false)
 
@@ -38,6 +39,8 @@ export const PostProvider = ({ children }: AuthProviderProps) => {
     const value = {
         posts,
         setPosts,
+        singlePost,
+        setSinglePost,
         loading,
         setLoading,
         hasMore,

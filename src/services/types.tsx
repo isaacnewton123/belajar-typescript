@@ -40,7 +40,7 @@ export interface UpdateProfile {
 }
 
 export interface AuthPost {
-    id: string;
+    id: object;
     userId: string;
     content: string;
     image: string;
@@ -61,7 +61,7 @@ export interface FormPost {
 
 export interface Comment {
 
-    id: string;
+    id: object;
     postId: string;
     userId: string;
     content: string;
