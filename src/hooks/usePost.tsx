@@ -88,7 +88,7 @@ export const usePost = () => {
                     return {
                         ...post,
                         isLiked: true,
-                        likesCount: post.isLiked === true ? post.likesCount + 1 : post.likesCount -1
+                        likesCount: post.isLiked ? post.likesCount + 1 : post.likesCount -1
                     }
                 })
                 return {
@@ -116,7 +116,7 @@ export const usePost = () => {
                     return {
                         ...post,
                         isLiked: false,
-                        likesCount: post.isLiked === false ? post.likesCount - 1 : post.likesCount + 1
+                        likesCount: post.isLiked ? post.likesCount - 1 : post.likesCount + 1
                     }
                 })
 
