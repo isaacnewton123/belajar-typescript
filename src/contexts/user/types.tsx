@@ -7,7 +7,6 @@ export interface UserProviderProps {
 export interface User {
     id: string;
     username: string;
-    email: string;
     fullName: string;
     bio: string | null;
     avatar: string | null;

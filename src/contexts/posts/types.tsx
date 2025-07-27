@@ -8,14 +8,12 @@ export interface User {
     id: string;
     username: string;
     fullName: string;
-    avatar: string;
+    avatar: string | null;
 }
 
-export interface posts {
-    posts: [
-        Post
-    ]
-    hasMore: boolean;
+export interface Posts {
+    posts: Post[];
+    hasMore?: boolean;
     totalPosts: number;
 }
 
@@ -33,10 +31,8 @@ export interface Post {
 }
 
 export interface PostsContextType {
-    posts: Post[];
-    setPosts: Dispatch<SetStateAction<Post[]>>;
+    posts: Posts | null;
+    setPosts: Dispatch<SetStateAction<Posts | null>>;
     singlePost: Post | null;
     setSinglePost: Dispatch<SetStateAction<Post | null>>;
-    hasMore: boolean;
-    setHasMore: Dispatch<SetStateAction<boolean>>;
 }

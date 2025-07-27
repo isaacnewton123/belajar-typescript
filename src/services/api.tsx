@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
-import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, GetUserProfile, FollowUser } from './types';
+import type {  AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, GetUserProfile, FollowUser, Post, Posts } from './types';
 
+// Base Url
 const baseURL = process.env.VITE_API_URL
 
 const apiClient = axios.create({
@@ -10,6 +11,7 @@ const apiClient = axios.create({
     },
 });
 
+// insert a token into every api call
 apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -33,6 +35,7 @@ apiClient.interceptors.response.use(
     }
 )
 
+// auth api function collection
 
 export const authApi = {
     register: async (userData: UserData): Promise<AuthResponse> => {
@@ -44,6 +47,8 @@ export const authApi = {
         return response.data
     }
 }
+
+// user api function collection
 
 export const userApi = {
     getProfile: async (): Promise<GetUserProfile> => {
@@ -67,30 +72,34 @@ export const userApi = {
     }
 }
 
+// post api function collection
+
 export const postAPI = {
-    createPost: async (formData: FormPost): Promise<AuthPost> => {
-        const response = await apiClient.post<AuthPost>('/posts', formData)
+    createPost: async (formData: FormPost): Promise<Post> => {
+        const response = await apiClient.post<Post>('/posts', formData)
         return response.data
     },
-    getAllPost: async (pages = 1, limit = 10): Promise<AuthPost> => {
-        const response = await apiClient.get<AuthPost>(`/posts?page=${pages}&limit=${limit}`)
+    getAllPost: async (pages = 1, limit = 10): Promise<Posts> => {
+        const response = await apiClient.get<Posts>(`/posts?page=${pages}&limit=${limit}`)
         return response.data
     },
-    getPost: async (postId: string): Promise<AuthPost> => {
-        const response = await apiClient.get<AuthPost>(`/posts/${postId}`)
+    getPost: async (postId: string): Promise<Post> => {
+        const response = await apiClient.get<Post>(`/posts/${postId}`)
         return response.data
     },
     deletePost: async (postId: string): Promise<void> => {
         await apiClient.delete(`/posts/${postId}`)
     },
-    likePost: async (postId: string): Promise<AuthPost> => {
-        const response = await apiClient.post<AuthPost>(`/posts/${postId}/like`)
+    likePost: async (postId: string): Promise<Post> => {
+        const response = await apiClient.post<Post>(`/posts/${postId}/like`)
         return response.data
     },
     unlikePost: async (postId: string): Promise<void> => {
         await apiClient.delete(`/posts/${postId}/like`)
     }
 }
+
+// comment api function collection
 
 export const commentAPI = {
     createComment: async (postId: string, content: string): Promise<Comment> => {
@@ -106,12 +115,16 @@ export const commentAPI = {
     }
 }
 
+// search api function collection
+
 export const searchAPI = {
     searchUser: async (query: string): Promise<Search> => {
         const response = await apiClient.get<Search>(`/search/users?q=${query}`)
         return response.data
     }
 }
+
+// feed api function collection
 
 export const feedAPI = {
     getFeed: async (page = 1, limit = 10): Promise<Feed> => {

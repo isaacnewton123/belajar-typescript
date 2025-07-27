@@ -1,4 +1,3 @@
-import type { Post } from "@/contexts/posts/types";
 
 
 export interface User {
@@ -70,18 +69,29 @@ export interface UpdateProfile {
     postsCount: number;
 }
 
-export interface AuthPost {
-    id: object;
+export interface UserPost {
+    id: string;
+    username: string;
+    fullName: string;
+    avatar: string | null;
+}
+
+export interface Post {
+    id: string;
     userId: string;
     content: string;
-    image: string;
+    image: string | null;
     createdAt: string;
     likesCount: number;
     commentsCount: number;
-    user: FollowUser;
+    user: UserPost
     isLiked: boolean;
-    posts: Post[]
-    hashMore: boolean;
+}
+
+export interface Posts {
+    posts: Post[];
+    hasMore: boolean;
+    totalPosts: number;
 }
 
 export interface FormPost {
@@ -90,26 +100,53 @@ export interface FormPost {
 }
 
 
-export interface Comment {
+interface UserComment {
+    id: string;
+    username: string;
+    fullName: string;
+    avatar: string | null;
+}
 
-    id: object;
+export interface Comment {
+    id: string;
     postId: string;
     userId: string;
     content: string;
     createdAt: string;
-    user: FollowUser;
+    user: UserComment;
 }
 
+
 export interface Comments {
-    comments: Comment[]
+    comments: [Comment];
+}
+
+interface UserSearch {
+    id: string;
+    username: string;
+    fullName: string;
+    avatar: string | null;
+    followersCount: number;
 }
 
 export interface Search {
-    users: FollowUser[]
+    users: [UserSearch];
+}
+
+interface PostFeed {
+    id: string;
+    userId: string;
+    content: string;
+    image: string | null;
+    createdAt: string;
+    likesCount: number
+    commentsCount: number;
+    user: UserComment;
+    isLiked:boolean;
 }
 
 export interface Feed {
-    posts: AuthPost[];
+    posts: [PostFeed];
     hasMore: boolean;
     totalPosts: number;
 }

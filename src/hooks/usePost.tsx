@@ -5,23 +5,30 @@ import { toast } from "react-toastify";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 
 export const usePost = () => {
-    const { posts, setPosts, setHasMore, setSinglePost } = usePostContext()
+    const { setPosts, setSinglePost } = usePostContext()
 
-    const {setLoading} = useLoadingContext()
+    const { setLoading } = useLoadingContext()
 
-        const fetchPost = async (pages = 1, limit = 10, reset = false) => {
+    const fetchPost = async (pages = 1, limit = 10, reset = false) => {
+        setLoading(true)
+
         try {
-            setLoading(true)
             const response = await postAPI.getAllPost(pages, limit)
-            const { posts: newPost, hashMore: moreAvailable } = response;
-
             if (reset) {
-                setPosts(newPost)
+                setPosts(response);
             } else {
-                setPosts((prev) => [...prev, ...newPost])
+                setPosts(prev => {
+
+                    if (!prev) return response;
+
+                    return {
+                        posts: [...prev.posts, ...response.posts],
+                        hasMore: response.hasMore,
+                        totalPosts: response.totalPosts
+                    };
+                });
             }
 
-            setHasMore(moreAvailable)
         } catch (error) {
             console.error("Failed to fetch posts", error)
             toast.error("Failed to fetch posts")
@@ -48,9 +55,17 @@ export const usePost = () => {
         setLoading(true)
         try {
             await postAPI.deletePost(postId)
-            const del = posts.filter((a) => a.id !== postId)
-            setPosts(del)
             toast.success('Success Delete Post')
+            setPosts((prev) => {
+                if (!prev) return null;
+
+                const updatedPosts = prev.posts.filter((post) => post.id !== postId);
+                return {
+                    ...prev,
+                    posts: updatedPosts,
+                    totalPosts: prev.totalPosts - 1
+                }
+            })
         } catch (error) {
             console.error('cannot Delete Post', error)
             toast.error('Cannot Delete Post , Please Try Again Later')
@@ -62,15 +77,25 @@ export const usePost = () => {
     const likePost = async (postId: string) => {
         try {
             await postAPI.likePost(postId)
-            const updatePost = posts.map((post) => {
-                if (post.id !== postId) {
-                    return post;
+            setPosts((prev) => {
+                if (!prev) return null
+
+                const updatePost = prev.posts.map((post) => {
+                    if (post.id !== postId) {
+                        return post
+                    }
+
+                    return {
+                        ...post,
+                        isLiked: true,
+                        likesCount: post.isLiked === true ? post.likesCount + 1 : post.likesCount -1
+                    }
+                })
+                return {
+                    ...prev,
+                    posts: updatePost
                 }
-
-                return { ...post, isLiked: !post.isLiked }
-
             })
-            setPosts(updatePost)
         } catch (error) {
             console.error('cannot like post', error)
             toast.error('cannot like post , please try again later')
@@ -80,15 +105,26 @@ export const usePost = () => {
     const unlikePost = async (postId: string) => {
         try {
             await postAPI.unlikePost(postId)
-            const updatePost = posts.map((post) => {
-                if (post.id !== postId) {
-                    return post
+            setPosts((prev) => {
+                if (!prev) return null
+
+                const updatePost = prev.posts.map((post) => {
+                    if (post.id !== postId) {
+                        return post
+                    }
+
+                    return {
+                        ...post,
+                        isLiked: false,
+                        likesCount: post.isLiked === false ? post.likesCount - 1 : post.likesCount + 1
+                    }
+                })
+
+                return {
+                    ...prev,
+                    posts: updatePost
                 }
-
-                return { ...post, isLiked: !post.isLiked }
             })
-
-            setPosts(updatePost)
         } catch (error) {
             console.error('cannot unlike post', error)
             toast.error('cannot unLike Post, please try again later')
@@ -97,16 +133,10 @@ export const usePost = () => {
 
     const getPost = async (postId: string) => {
         setLoading(true);
+        setSinglePost(null)
         try {
-            await postAPI.getPost(postId);
-            const findPost = posts.find((post) => post.id === postId)
-            if (findPost) {
-                setSinglePost(findPost)
-            } else {
-                console.error('A post with that ID was not found in the local state.')
-                toast.error('Post not found.')
-                setSinglePost(null)
-            }
+            const singlePost = await postAPI.getPost(postId);
+            setSinglePost(singlePost)
         } catch (error) {
             console.error('cannot get post', error)
             toast.error('cannot get post , please try again later')

@@ -18,6 +18,17 @@ const useUser = () => {
         } catch (error) {
             console.error('cannot get profile', error)
             toast.error('cannot get profile , please try again later')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const GetUserProfile = async () => {
+        setLoading(true)
+        setProfile(null)
+        try {
+            const response = await userApi.getProfile()
+            
         }
     }
 }
