@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData, UserProfile, Comment, Credential } from './types';
+import type { AuthPost, AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, GetUserProfile, FollowUser } from './types';
 
 const baseURL = process.env.VITE_API_URL
 
@@ -46,20 +46,20 @@ export const authApi = {
 }
 
 export const userApi = {
-    getProfile: async (): Promise<UserProfile> => {
-        const response = await apiClient.get<UserProfile>('/users/profile')
+    getProfile: async (): Promise<GetUserProfile> => {
+        const response = await apiClient.get<GetUserProfile>('/users/profile')
         return response.data
     },
-    updatePofile: async (formData: UpdateProfile): Promise<UserProfile> => {
-        const response = await apiClient.put<UserProfile>('/users/profile', formData)
+    updatePofile: async (formData: UpdateProfile): Promise<UpdateProfile> => {
+        const response = await apiClient.put<UpdateProfile>('/users/profile', formData)
         return response.data
     },
-    searchUser: async (username: string): Promise<UserProfile> => {
-        const response = await apiClient.get<UserProfile>(`/users/${username}`)
+    searchUser: async (username: string): Promise<FollowUser> => {
+        const response = await apiClient.get<FollowUser>(`/users/${username}`)
         return response.data
     },
-    followUser: async (userId: string): Promise<UserProfile> => {
-        const response = await apiClient.post<UserProfile>(`/users/${userId}/follow`)
+    followUser: async (userId: string): Promise<FollowUser> => {
+        const response = await apiClient.post<FollowUser>(`/users/${userId}/follow`)
         return response.data
     },
     unfollowUser: async (userId: string): Promise<void> => {

@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { useLoadingContext } from "@/contexts/useLoadingContext";
 
 import type { Credential, UserData } from "@/services/types";
 import type { myjwtpayload, User } from '@/contexts/auth/types'
@@ -10,7 +11,9 @@ import type { myjwtpayload, User } from '@/contexts/auth/types'
 
 export const useAuth = () => {
 
-    const { setUser, setLoading } = useAuthContext()
+    const { setUser } = useAuthContext()
+    const {setLoading} = useLoadingContext()
+
     const navigate = useNavigate()
 
     const login = async (credential: Credential) => {

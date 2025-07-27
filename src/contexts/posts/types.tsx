@@ -1,15 +1,30 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
-import type { User } from "../auth/types";
 
-export interface AuthProviderProps {
+export interface PostProviderProps {
     children: ReactNode;
 }
 
+export interface User {
+    id: string;
+    username: string;
+    fullName: string;
+    avatar: string;
+}
+
+export interface posts {
+    posts: [
+        Post
+    ]
+    hasMore: boolean;
+    totalPosts: number;
+}
+
+
 export interface Post {
-    _id: string;
+    id: string;
     userId: string;
     content: string;
-    image: string;
+    image: string | null;
     createdAt: string;
     likesCount: number;
     commentsCount: number;
@@ -20,11 +35,8 @@ export interface Post {
 export interface PostsContextType {
     posts: Post[];
     setPosts: Dispatch<SetStateAction<Post[]>>;
-    singlePost: Post|null;
-    setSinglePost: Dispatch<SetStateAction<Post|null>>;
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
+    singlePost: Post | null;
+    setSinglePost: Dispatch<SetStateAction<Post | null>>;
     hasMore: boolean;
     setHasMore: Dispatch<SetStateAction<boolean>>;
-    fetchPost: (pages?: number, limit?: number, reset?: boolean) => Promise<void>
 }

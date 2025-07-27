@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 import type { AuthProviderProps, myjwtpayload, User } from './types';
 import { AuthContext } from "./useAuthContext";
+import { useLoadingContext } from "../useLoadingContext";
 
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null)
-    const [loading, setLoading] = useState(true)
+
+    const {setLoading} = useLoadingContext()
 
     const navigate = useNavigate()
 
@@ -31,13 +33,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         setLoading(false)
-    }, [navigate])
+    }, [navigate, setLoading])
 
     const value = {
         user,
         setUser,
-        loading,
-        setLoading,
     };
 
 

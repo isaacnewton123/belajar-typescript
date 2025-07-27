@@ -2,9 +2,33 @@ import { postAPI } from "@/services/api";
 import { usePostContext } from "@/contexts/posts/usePostContext";
 import type { FormPost } from "@/services/types";
 import { toast } from "react-toastify";
+import { useLoadingContext } from "@/contexts/useLoadingContext";
 
 export const usePost = () => {
-    const { posts, setPosts, setLoading, fetchPost, setSinglePost } = usePostContext()
+    const { posts, setPosts, setHasMore, setSinglePost } = usePostContext()
+
+    const {setLoading} = useLoadingContext()
+
+        const fetchPost = async (pages = 1, limit = 10, reset = false) => {
+        try {
+            setLoading(true)
+            const response = await postAPI.getAllPost(pages, limit)
+            const { posts: newPost, hashMore: moreAvailable } = response;
+
+            if (reset) {
+                setPosts(newPost)
+            } else {
+                setPosts((prev) => [...prev, ...newPost])
+            }
+
+            setHasMore(moreAvailable)
+        } catch (error) {
+            console.error("Failed to fetch posts", error)
+            toast.error("Failed to fetch posts")
+        } finally {
+            setLoading(false)
+        }
+    }
 
     const createPost = async (formData: FormPost) => {
         setLoading(true)
@@ -24,7 +48,7 @@ export const usePost = () => {
         setLoading(true)
         try {
             await postAPI.deletePost(postId)
-            const del = posts.filter((a) => a._id !== postId)
+            const del = posts.filter((a) => a.id !== postId)
             setPosts(del)
             toast.success('Success Delete Post')
         } catch (error) {
@@ -39,7 +63,7 @@ export const usePost = () => {
         try {
             await postAPI.likePost(postId)
             const updatePost = posts.map((post) => {
-                if (post._id !== postId) {
+                if (post.id !== postId) {
                     return post;
                 }
 
@@ -57,7 +81,7 @@ export const usePost = () => {
         try {
             await postAPI.unlikePost(postId)
             const updatePost = posts.map((post) => {
-                if (post._id !== postId) {
+                if (post.id !== postId) {
                     return post
                 }
 
@@ -75,7 +99,7 @@ export const usePost = () => {
         setLoading(true);
         try {
             await postAPI.getPost(postId);
-            const findPost = posts.find((post) => post._id === postId)
+            const findPost = posts.find((post) => post.id === postId)
             if (findPost) {
                 setSinglePost(findPost)
             } else {
@@ -96,6 +120,7 @@ export const usePost = () => {
         deletePost,
         getPost,
         likePost,
-        unlikePost
+        unlikePost,
+        fetchPost
     }
 }

@@ -1,10 +1,10 @@
-import Headers from "./components/layout/Headers"
+import Loading from "./components/ui/loading/Loading"
 
 function App() {
   return (
-    <div className='bg-gray-100 text-gray-900' >
-      <Headers/>
-    </div>
+    <>
+      <Loading />
+    </>
   )
 }
 

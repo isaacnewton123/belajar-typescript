@@ -13,21 +13,16 @@ export interface myjwtpayload {
 export interface AuthContextType {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
-    loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface User {
-    _id: string;
+    id: string;
     username: string;
     email: string;
-    password: string;
     fullName: string;
     bio: string;
-    avatar: string;
+    avatar: string | null;
     followersCount: number;
     followingCount: number;
     postsCount: number;
-    createdAt: Date;
-    updatedAt: Date;
 }

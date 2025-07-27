@@ -1,8 +1,23 @@
 import type { Post } from "@/contexts/posts/types";
 
+
+export interface User {
+    id: string;
+    username: string;
+    email: string;
+    fullName: string;
+    bio: string | null;
+    avatar: string | null;
+    followersCount: number;
+    followingCount: number;
+    postsCount: number;
+    createdAt: string;
+}
+
+
 export interface AuthResponse {
     token: string;
-    user: UserProfile
+    user: User
 }
 
 export interface UserData {
@@ -19,11 +34,23 @@ export interface Credential {
 }
 
 
-export interface UserProfile {
+export interface GetUserProfile {
     id: string;
     username: string;
     fullName: string;
-    bio: string;
+    bio: string | null;
+    avatar: string | null;
+    followersCount: number;
+    followingCount: number;
+    postsCount: number;
+    createdAt: string;
+}
+
+export interface FollowUser {
+    id: string;
+    username: string;
+    fullName: string;
+    bio: string | null;
     avatar: string | null;
     followersCount: number;
     followingCount: number;
@@ -32,11 +59,15 @@ export interface UserProfile {
     isFollowing: boolean;
 }
 
-
 export interface UpdateProfile {
+    id: string;
+    username?: string;
     fullName?: string;
-    bio?: string;
+    bio?: string | null;
     avatar?: string | null;
+    followersCount: number;
+    followingCount: number;
+    postsCount: number;
 }
 
 export interface AuthPost {
@@ -47,7 +78,7 @@ export interface AuthPost {
     createdAt: string;
     likesCount: number;
     commentsCount: number;
-    user: UserProfile;
+    user: FollowUser;
     isLiked: boolean;
     posts: Post[]
     hashMore: boolean;
@@ -66,7 +97,7 @@ export interface Comment {
     userId: string;
     content: string;
     createdAt: string;
-    user: UserProfile;
+    user: FollowUser;
 }
 
 export interface Comments {
@@ -74,7 +105,7 @@ export interface Comments {
 }
 
 export interface Search {
-    users: UserProfile[]
+    users: FollowUser[]
 }
 
 export interface Feed {
