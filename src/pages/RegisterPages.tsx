@@ -25,13 +25,31 @@ export function RegisterForm({
         </CardHeader>
         <CardContent>
           <form>
+            <div className="grid gap-3">
+              <Label htmlFor="fullname">Full Name</Label>
+              <Input
+                id="fullname"
+                type="text"
+                placeholder="example : Naruto Uzumaki"
+                required
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username">username</Label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="example : narutouzumaki"
+                required
+              />
+            </div>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">username</Label>
+                <Label htmlFor="email">email</Label>
                 <Input
-                  id="username"
+                  id="email"
                   type="text"
-                  placeholder="bobokobutut"
+                  placeholder="example : narutouzumaki@fidodating.xyz"
                   required
                 />
               </div>
@@ -48,7 +66,7 @@ export function RegisterForm({
                 <Input id="password" type="password" required />
               </div>
               <div className="flex flex-col gap-3 bg-blue-600 text-white rounded-xl dark:bg-blue-500 dark:text-gray-100">
-                <Button  size={'lg'}  type="submit" className="w-full cursor-pointer">
+                <Button size={'lg'} type="submit" className="w-full cursor-pointer">
                   Register
                 </Button>
               </div>
