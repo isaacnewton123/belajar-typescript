@@ -2,7 +2,7 @@ import { usePostContext } from "@/contexts/posts/usePostContext";
 import { usePost } from "@/hooks/usePost";
 import PostContent from "../ui/PostContent";
 
-const Post = () => {
+const AllPost = () => {
     const { posts } = usePostContext()
     const { getPost } = usePost()
 
@@ -21,4 +21,4 @@ const Post = () => {
     )
 }
 
-export default Post
+export default AllPost
