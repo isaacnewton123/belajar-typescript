@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import type {  AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, UserProfile, Post, Posts, User } from './types';
 
 // Base Url
-const baseURL = process.env.VITE_API_URL
+const baseURL = import.meta.env.VITE_API_URL
 
 const apiClient = axios.create({
     baseURL: baseURL,

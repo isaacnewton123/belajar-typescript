@@ -84,7 +84,7 @@ export interface Posts {
 
 export interface FormPost {
     content: string;
-    image: string | null;
+    image: File | null;
 }
 
 

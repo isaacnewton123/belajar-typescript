@@ -3,11 +3,14 @@ import { usePostContext } from "@/contexts/posts/usePostContext";
 import type { FormPost } from "@/services/types";
 import { toast } from "react-toastify";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
+import { useNavigate } from "react-router-dom";
 
 export const usePost = () => {
     const { setPosts, setSinglePost } = usePostContext()
 
     const { setLoading } = useLoadingContext()
+    
+    const navigate = useNavigate()
 
     const fetchPost = async (pages = 1, limit = 10, reset = false) => {
         setLoading(true)
@@ -137,6 +140,7 @@ export const usePost = () => {
         try {
             const singlePost = await postAPI.getPost(postId);
             setSinglePost(singlePost)
+            navigate(`post/${postId}`)
         } catch (error) {
             console.error('cannot get post', error)
             toast.error('cannot get post , please try again later')

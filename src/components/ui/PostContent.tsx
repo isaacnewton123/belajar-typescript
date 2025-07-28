@@ -5,12 +5,13 @@ import { BiLike } from "react-icons/bi";
 import { FaRegCommentAlt } from "react-icons/fa";
 
 interface PostContentProps extends Post {
-  onClick: () => void;
+  onGetPost: () => void;
+  onLike: () => void;
 }
 
-const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onClick }: PostContentProps) => {
+const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onGetPost, onLike }: PostContentProps) => {
     return (
-        <div className="bg-white rounded-lg shadow-sm mb-6" onClick={onClick}>
+        <div className="bg-white rounded-lg shadow-sm mb-6 hover:bg-gray-50 transition">
             {/* <!-- Header Post --> */}
             <div className="p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -28,19 +29,19 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
                 </button>
             </div>
             {/* <!-- Content Post --> */}
-            <div className="px-4 pb-2">
+            <div className="px-4 pb-2 cursor-pointer" onClick={onGetPost}>
                 <p>{content}</p>
             </div>
             {/* <!-- Image Post --> */}
-            {image !== null ? <img src={image} alt="Gambar Postingan" className="w-full h-auto" /> : <></>}
+            {image !== null ? <img src={image} className="w-full h-auto" /> : <></>}
             {/* <!-- action post --> */}
             <div className="p-4 flex justify-between items-center text-gray-500">
                 <div className="flex space-x-5">
-                    <button className="flex items-center space-x-2 hover:text-red-500">
-                        {isLiked === true ? <BiSolidLike className='text-blue-700' /> : <BiLike />}
+                    <button className="flex items-center space-x-2 hover:text-red-500 cursor-pointer" onClick={onLike}>
+                        {isLiked === true ? <BiSolidLike className='text-blue-700 ' /> : <BiLike />}
                         <span>{likesCount} Likes</span>
                     </button>
-                    <button className="comment-button flex items-center space-x-2 hover:text-blue-600">
+                    <button className="comment-button flex items-center space-x-2 hover:text-blue-600 cursor-pointer" onClick={onGetPost}>
                         <FaRegCommentAlt /> <span>{commentsCount} Comment</span>
                     </button>
                 </div>

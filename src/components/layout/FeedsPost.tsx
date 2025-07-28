@@ -6,7 +6,7 @@ import PostContent from "../ui/PostContent"
 const FeedsPost = () => {
 
     const { feeds } = useFeedsContext()
-    const { getPost } = usePost()
+    const { getPost, likePost } = usePost()
 
     const feed = feeds?.posts
 
@@ -16,7 +16,8 @@ const FeedsPost = () => {
                 <PostContent
                     key={a.id}
                     {...a}
-                    onClick={() => getPost(a.id)}
+                    onGetPost={() => getPost(a.id)}
+                    onLike={() => likePost(a.id)}
                 />
             )}
         </>
