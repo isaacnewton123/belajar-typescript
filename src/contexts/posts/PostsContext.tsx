@@ -1,7 +1,8 @@
-import type { PostProviderProps, Post, Posts } from "./types";
+import type { PostProviderProps } from "./types";
 import { useEffect, useState } from "react";
 import { PostContext } from "./usePostContext";
 import { usePost } from "@/hooks/usePost";
+import type { Post, Posts } from "@/services/types";
 
 export const PostProvider = ({ children }: PostProviderProps) => {
     const [posts, setPosts] = useState<Posts|null>(null)

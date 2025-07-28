@@ -2,17 +2,15 @@ import { authApi } from "@/services/api";
 import { toast } from "react-toastify";
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 
 import type { Credential, UserData } from "@/services/types";
-import type { myjwtpayload, User } from '@/contexts/auth/types'
 
 
 export const useAuth = () => {
 
     const { setUser } = useAuthContext()
-    const {setLoading} = useLoadingContext()
+    const { setLoading } = useLoadingContext()
 
     const navigate = useNavigate()
 
@@ -22,14 +20,16 @@ export const useAuth = () => {
         try {
             const response = await authApi.login(credential)
 
-            if (response && response.token) {
-                const decodedData = jwtDecode<myjwtpayload>(response.token)
-                setUser(decodedData as unknown as User)
+            if (response && response.token && response.user) {
+                localStorage.setItem('token', response.token)
+                setUser(response.user)
                 toast.success('Login Success')
                 navigate('/dashboard')
             } else {
                 toast.error('Token Experied , or more')
             }
+
+
         } catch (error) {
             console.error('gagal mengambil token', error)
             toast.error('Unsuccess , username or password is wrong')

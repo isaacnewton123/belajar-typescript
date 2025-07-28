@@ -1,14 +1,12 @@
 import { useState } from "react"
-import type { UserProviderProps, User, UserProfile } from './types'
+import type { UserProviderProps } from './types'
 import { UserContext } from "./useUserContext"
+import type { UserProfile } from "@/services/types"
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-    const [profile, setProfile] = useState<User | null>(null)
-    const [userProfile, setUserProfile] = useState<UserProfile | null> (null)
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
 
     const value = {
-        profile,
-        setProfile,
         userProfile,
         setUserProfile
     }

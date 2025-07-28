@@ -33,19 +33,7 @@ export interface Credential {
 }
 
 
-export interface GetUserProfile {
-    id: string;
-    username: string;
-    fullName: string;
-    bio: string | null;
-    avatar: string | null;
-    followersCount: number;
-    followingCount: number;
-    postsCount: number;
-    createdAt: string;
-}
-
-export interface FollowUser {
+export interface UserProfile {
     id: string;
     username: string;
     fullName: string;
@@ -84,13 +72,13 @@ export interface Post {
     createdAt: string;
     likesCount: number;
     commentsCount: number;
-    user: UserPost
+    user: UserPost;
     isLiked: boolean;
 }
 
 export interface Posts {
     posts: Post[];
-    hasMore: boolean;
+    hasMore?: boolean;
     totalPosts: number;
 }
 
@@ -100,20 +88,13 @@ export interface FormPost {
 }
 
 
-interface UserComment {
-    id: string;
-    username: string;
-    fullName: string;
-    avatar: string | null;
-}
-
 export interface Comment {
     id: string;
     postId: string;
     userId: string;
     content: string;
     createdAt: string;
-    user: UserComment;
+    user: UserPost;
 }
 
 
@@ -121,7 +102,7 @@ export interface Comments {
     comments: Comment[];
 }
 
-interface UserSearch {
+export interface UserSearch {
     id: string;
     username: string;
     fullName: string;
@@ -133,20 +114,8 @@ export interface Search {
     users: UserSearch[];
 }
 
-interface PostFeed {
-    id: string;
-    userId: string;
-    content: string;
-    image: string | null;
-    createdAt: string;
-    likesCount: number
-    commentsCount: number;
-    user: UserComment;
-    isLiked:boolean;
-}
-
-export interface Feed {
-    posts: PostFeed[];
+export interface Feeds {
+    posts: Post[];
     hasMore: boolean;
     totalPosts: number;
 }

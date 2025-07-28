@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Feeds, FeedsProviderProps } from "./types";
+import type { FeedsProviderProps } from "./types";
 import { FeedsContext } from "./useFeedContext";
 import { useFeed } from "@/hooks/useFeed";
+import type { Feeds } from "@/services/types";
 
 export const FeedsProvider = ({ children }: FeedsProviderProps) => {
     const [feeds, setFeeds] = useState<Feeds | null>(null)

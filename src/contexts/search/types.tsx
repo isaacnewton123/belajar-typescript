@@ -1,19 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
+import type {Search} from '@/services/types'
 
 export interface SearchProviderProps {
     children: ReactNode;
-}
-
-interface User {
-    id: string;
-    username: string;
-    fullName: string;
-    avatar: string | null;
-    followersCount: number;
-}
-
-export interface Search {
-    users: User[];
 }
 
 export interface SearchContextType {

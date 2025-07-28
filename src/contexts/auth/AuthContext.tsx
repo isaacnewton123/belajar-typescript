@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
-import type { AuthProviderProps, myjwtpayload, User } from './types';
+import type { AuthProviderProps, myjwtpayload } from './types';
 import { AuthContext } from "./useAuthContext";
 import { useLoadingContext } from "../useLoadingContext";
+import type { User } from "@/services/types";
 
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null)
 
-    const {setLoading} = useLoadingContext()
+    const { setLoading } = useLoadingContext()
 
     const navigate = useNavigate()
 

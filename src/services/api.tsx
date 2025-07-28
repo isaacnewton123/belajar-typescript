@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type {  AuthResponse, Comments, Feed, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, GetUserProfile, FollowUser, Post, Posts } from './types';
+import type {  AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, UserProfile, Post, Posts, User } from './types';
 
 // Base Url
 const baseURL = process.env.VITE_API_URL
@@ -51,20 +51,20 @@ export const authApi = {
 // user api function collection
 
 export const userApi = {
-    getProfile: async (): Promise<GetUserProfile> => {
-        const response = await apiClient.get<GetUserProfile>('/users/profile')
+    getProfile: async (): Promise<User> => {
+        const response = await apiClient.get<User>('/users/profile')
         return response.data
     },
     updatePofile: async (formData: UpdateProfile): Promise<UpdateProfile> => {
         const response = await apiClient.put<UpdateProfile>('/users/profile', formData)
         return response.data
     },
-    searchUser: async (username: string): Promise<FollowUser> => {
-        const response = await apiClient.get<FollowUser>(`/users/${username}`)
+    searchUser: async (username: string): Promise<UserProfile> => {
+        const response = await apiClient.get<UserProfile>(`/users/${username}`)
         return response.data
     },
-    followUser: async (userId: string): Promise<FollowUser> => {
-        const response = await apiClient.post<FollowUser>(`/users/${userId}/follow`)
+    followUser: async (userId: string): Promise<UserProfile> => {
+        const response = await apiClient.post<UserProfile>(`/users/${userId}/follow`)
         return response.data
     },
     unfollowUser: async (userId: string): Promise<void> => {
@@ -127,8 +127,8 @@ export const searchAPI = {
 // feed api function collection
 
 export const feedAPI = {
-    getFeed: async (page = 1, limit = 10): Promise<Feed> => {
-        const response = await apiClient.get<Feed>(`/feed?page=${page}&limit=${limit}`)
+    getFeed: async (page = 1, limit = 10): Promise<Feeds> => {
+        const response = await apiClient.get<Feeds>(`/feed?page=${page}&limit=${limit}`)
         return response.data
     }
 }

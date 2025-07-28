@@ -3,18 +3,20 @@ import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { useUserContext } from "@/contexts/user/useUserContext";
 import { toast } from "react-toastify";
 import type { UpdateProfile } from '@/services/types'
+import { useAuthContext } from "@/contexts/auth/useAuthContext";
 
 
 export const useUser = () => {
 
-    const { setProfile, setUserProfile } = useUserContext()
+    const { setUserProfile } = useUserContext()
     const { setLoading } = useLoadingContext()
+    const { setUser } = useAuthContext()
 
     const getProfile = async () => {
         setLoading(true)
         try {
             const response = await userApi.getProfile()
-            setProfile(response)
+            setUser(response)
         } catch (error) {
             console.error('cannot get profile', error)
             toast.error('cannot get profile , please try again later')
@@ -47,7 +49,7 @@ export const useUser = () => {
         setLoading(true)
         try {
             const response = await userApi.updatePofile(formData)
-            setProfile((prev) => {
+            setUser((prev) => {
                 if (!prev) return null
 
                 return {
@@ -78,7 +80,7 @@ export const useUser = () => {
                     followersCount: prev.isFollowing ? prev.followersCount + 1 : prev.followersCount - 1
                 }
             })
-            setProfile((prev) => {
+            setUser((prev) => {
                 if (!prev) return null
 
                 return {
@@ -105,7 +107,7 @@ export const useUser = () => {
                 }
             })
 
-            setProfile((prev) => {
+            setUser((prev) => {
                 if (!prev) return null
 
                 return {
