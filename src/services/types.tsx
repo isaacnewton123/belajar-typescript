@@ -118,7 +118,7 @@ export interface Comment {
 
 
 export interface Comments {
-    comments: [Comment];
+    comments: Comment[];
 }
 
 interface UserSearch {
@@ -130,7 +130,7 @@ interface UserSearch {
 }
 
 export interface Search {
-    users: [UserSearch];
+    users: UserSearch[];
 }
 
 interface PostFeed {
@@ -146,7 +146,7 @@ interface PostFeed {
 }
 
 export interface Feed {
-    posts: [PostFeed];
+    posts: PostFeed[];
     hasMore: boolean;
     totalPosts: number;
 }
