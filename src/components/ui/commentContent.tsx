@@ -13,7 +13,7 @@ const CommentContent = ({ user: { avatar, fullName, username }, content, created
             <div>
                 <div className="flex items-center space-x-2">
                     <p className="font-semibold text-sm">{fullName}</p>
-                    <p className="text-xs text-gray-500">{username} · {createdAt}</p>
+                    <p className="text-xs text-gray-500">@{username} · {createdAt}</p>
                 </div>
                 <p className="text-sm mt-1">{content}</p>
             </div>

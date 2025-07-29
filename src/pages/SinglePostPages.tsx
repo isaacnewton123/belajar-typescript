@@ -1,4 +1,4 @@
-import SinglePost from "@/components/layout/post/SinglePost"
+import SinglePost from "@/components/post/SinglePost"
 import Headers from "@/components/ui/Headers"
 
 const SinglePostPages = () => {

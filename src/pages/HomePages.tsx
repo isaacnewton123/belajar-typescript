@@ -1,5 +1,5 @@
-import HeadersDashboard from "@/components/layout/dashboard/HeadersDashboard"
-import AllPost from "@/components/layout/dashboard/AllPost"
+import HeadersDashboard from "@/components/dashboard/HeadersDashboard"
+import AllPost from "@/components/dashboard/AllPost"
 
 const DashboardPages = () => {
     return (

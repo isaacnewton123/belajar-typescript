@@ -1,7 +1,7 @@
 import { usePostContext } from "@/contexts/posts/usePostContext";
 import { usePost } from "@/hooks/usePost";
-import PostContent from "../../ui/PostContent";
-import CreatePostForm from "../../ui/CreatePostForm";
+import PostContent from "@/components/ui/PostContent";
+import CreatePostForm from "@/components/ui/CreatePostForm";
 
 const AllPost = () => {
     const { posts } = usePostContext()

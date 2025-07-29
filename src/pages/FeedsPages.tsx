@@ -1,5 +1,5 @@
-import FeedsPost from "@/components/layout/dashboard/FeedsPost"
-import HeadersDashboard from "@/components/layout/dashboard/HeadersDashboard"
+import FeedsPost from "@/components/dashboard/FeedsPost"
+import HeadersDashboard from "@/components/dashboard/HeadersDashboard"
 
 const FeedsPages = () => {
     return (

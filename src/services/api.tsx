@@ -118,8 +118,8 @@ export const commentAPI = {
 // search api function collection
 
 export const searchAPI = {
-    searchUser: async (query: string): Promise<Search> => {
-        const response = await apiClient.get<Search>(`/search/users?q=${query}`)
+    searchUser: async (q: string): Promise<Search> => {
+        const response = await apiClient.get<Search>(`/search/users?q=${q}`)
         return response.data
     }
 }

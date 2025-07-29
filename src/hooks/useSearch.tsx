@@ -5,9 +5,9 @@ import { toast } from "react-toastify";
 export const useSearch = () => {
     const { setSearch } = useSearchContext()
 
-    const getSearch = async (query: string) => {
+    const getSearch = async (q: string) => {
         try {
-            const response = await searchAPI.searchUser(query)
+            const response = await searchAPI.searchUser(q)
             setSearch(response)
         } catch (error) {
             console.error('cannot search', error)

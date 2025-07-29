@@ -1,6 +1,6 @@
 import { useFeedsContext } from "@/contexts/feed/useFeedContext"
 import { usePost } from "@/hooks/usePost"
-import PostContent from "../../ui/PostContent"
+import PostContent from "@/components/ui/PostContent"
 import CreatePostForm from "@/components/ui/CreatePostForm"
 
 const FeedsPost = () => {

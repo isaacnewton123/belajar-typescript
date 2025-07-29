@@ -3,8 +3,8 @@ import { IoSearchSharp } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
 import { ImFeed } from "react-icons/im";
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
-import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGroup, DropdownMenuItem } from "../../ui/dropdown-menu";
-import ImgButton from "../../ui/imgButton";
+import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGroup, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import ImgButton from "@/components/ui/imgButton";
 import { Link } from "react-router-dom";
 
 
