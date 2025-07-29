@@ -1,20 +1,20 @@
-import { usePostContext } from "@/contexts/posts/usePostContext";
-import { usePost } from "@/hooks/usePost";
-import PostContent from "../ui/PostContent";
-import CreatePostForm from "../ui/CreatePostForm";
+import { useFeedsContext } from "@/contexts/feed/useFeedContext"
+import { usePost } from "@/hooks/usePost"
+import PostContent from "../../ui/PostContent"
+import CreatePostForm from "@/components/ui/CreatePostForm"
 
-const AllPost = () => {
-    const { posts } = usePostContext()
+const FeedsPost = () => {
+    const { feeds } = useFeedsContext()
     const { getPost, likePost } = usePost()
 
-    const post = posts?.posts
+    const feed = feeds?.posts
 
     return (
         <main className="container mx-auto px-4 mt-6">
             <div className="flex justify-center">
                 <div className="w-full max-w-3xl">
                     <CreatePostForm />
-                    {post?.map((a) =>
+                    {feed?.map((a) =>
                         <PostContent
                             key={a.id}
                             {...a}
@@ -28,4 +28,4 @@ const AllPost = () => {
     )
 }
 
-export default AllPost
+export default FeedsPost

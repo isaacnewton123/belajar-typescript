@@ -1,12 +1,14 @@
 import { AiOutlineHome } from "react-icons/ai";
 import { IoSearchSharp } from "react-icons/io5";
 import { SlLogout } from "react-icons/sl";
+import { ImFeed } from "react-icons/im";
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
-import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGroup, DropdownMenuItem } from "../ui/dropdown-menu";
-import ImgButton from "../ui/imgButton";
+import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGroup, DropdownMenuItem } from "../../ui/dropdown-menu";
+import ImgButton from "../../ui/imgButton";
+import { Link } from "react-router-dom";
 
 
-const Headers = () => {
+const HeadersDashboard = ({ home = 'text-gray-600', search = 'text-gray-600', feeds = 'text-gray-600' }) => {
 
     const { user } = useAuthContext()
 
@@ -14,17 +16,20 @@ const Headers = () => {
         <header className="bg-white shadow-sm sticky top-0 z-40">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
-                    <div className="text-2xl font-bold text-blue-600">
-                        <a>FidoApps</a>
-                    </div>
+                    <button className="text-2xl font-bold text-blue-600">
+                        <a href="/home">FidoApps</a>
+                    </button>
 
                     <div className="flex items-center space-x-5">
-                        <a className="cursor-pointer text-gray-600 hover:text-blue-600">
-                            <AiOutlineHome className="w-6 h-6" />
-                        </a>
-                        <a className="cursor-pointer text-gray-600 hover:text-blue-600">
-                            <IoSearchSharp className="w-6 h-6" />
-                        </a>
+                        <Link to={'/home'} className={`cursor-pointer hover:text-blue-600${home}`}>
+                            <AiOutlineHome className='w-6 h-6' />
+                        </Link>
+                        <Link to={'/feeds'} className={`cursor-pointer hover:text-blue-600${feeds}`}>
+                            <ImFeed className='w-6 h-6' />
+                        </Link>
+                        <Link to={'/search'} className={`cursor-pointer hover:text-blue-600${search}`}>
+                            <IoSearchSharp className='w-6 h-6' />
+                        </Link>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <div className="relative">
@@ -54,4 +59,4 @@ const Headers = () => {
     )
 }
 
-export default Headers
+export default HeadersDashboard

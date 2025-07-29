@@ -24,7 +24,7 @@ export const useAuth = () => {
                 localStorage.setItem('token', response.token)
                 setUser(response.user)
                 toast.success('Login Success')
-                navigate('/dashboard')
+                navigate('/home')
             } else {
                 toast.error('Token Experied , or more')
             }
