@@ -5,11 +5,13 @@ import InputSearch from "./component/inputSearch";
 import EmptyInput from "./component/EmptyInput";
 import MissingQuery from "./component/MissingQuery";
 import ResultUser from "./component/ResultUser";
+import { useUser } from "@/hooks/useUser";
 
 const Search = () => {
     const [q, setQ] = useState<string>('');
     const { search, setSearch } = useSearchContext();
     const { getSearch } = useSearch();
+    const { getUserProfile } = useUser()
 
     useEffect(() => {
         const time = setTimeout(() => {
@@ -18,7 +20,7 @@ const Search = () => {
             } else {
                 setSearch(null);
             }
-        }, 1000);
+        }, 500);
 
         return () => {
             clearTimeout(time);
@@ -41,6 +43,7 @@ const Search = () => {
                         <ResultUser
                             key={user.id}
                             {...user}
+                            onGetUser={() => getUserProfile(user.username)}
                         />
                     ))}
                 </div>
@@ -49,7 +52,7 @@ const Search = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 mt-6">
+        <div className="container min-h-screen mx-auto px-4 mt-6">
             <div className="flex justify-center">
                 <div className="w-full max-w-3xl">
                     <InputSearch

@@ -4,6 +4,7 @@ import type { FormPost } from "@/services/types";
 import { toast } from "react-toastify";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 
 export const usePost = () => {
     const { setPosts, setSinglePost } = usePostContext()
@@ -12,7 +13,7 @@ export const usePost = () => {
     
     const navigate = useNavigate()
 
-    const fetchPost = async (pages = 1, limit = 10, reset = false) => {
+    const fetchPost = useCallback(async (pages = 1, limit = 10, reset = false) => {
         setLoading(true)
 
         try {
@@ -38,7 +39,7 @@ export const usePost = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setPosts])
 
     const createPost = async (formData: FormPost) => {
         setLoading(true)

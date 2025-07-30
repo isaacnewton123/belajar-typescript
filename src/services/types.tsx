@@ -46,9 +46,15 @@ export interface UserProfile {
     isFollowing: boolean;
 }
 
+export interface FormUpdateProfile {
+    fullName: string;
+    bio: string | null;
+    avatar: string | null;
+}
+
 export interface UpdateProfile {
     id: string;
-    username?: string;
+    username: string;
     fullName?: string;
     bio?: string | null;
     avatar?: string | null;

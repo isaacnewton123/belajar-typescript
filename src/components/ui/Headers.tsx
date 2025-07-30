@@ -10,7 +10,7 @@ const Headers = ({children}: {children: string} ) => {
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                     {/* <!-- Back Button --> */}
-                    <a onClick={() => navigate(-1)} className="text-gray-600 hover:bg-gray-100 p-2 rounded-full">
+                    <a onClick={() => navigate(-1)} className="text-gray-600 hover:bg-gray-100 p-2 rounded-full cursor-pointer">
                         <IoArrowBack className="w-6 h-6" />
                     </a>
 

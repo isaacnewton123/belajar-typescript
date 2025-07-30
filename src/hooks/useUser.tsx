@@ -2,21 +2,24 @@ import { userApi } from "@/services/api";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { useUserContext } from "@/contexts/user/useUserContext";
 import { toast } from "react-toastify";
-import type { UpdateProfile } from '@/services/types'
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const useUser = () => {
 
     const { setUserProfile } = useUserContext()
     const { setLoading } = useLoadingContext()
-    const { setUser } = useAuthContext()
+    const {user, setUser } = useAuthContext()
+
+    const navigate = useNavigate()
 
     const getProfile = async () => {
         setLoading(true)
         try {
             const response = await userApi.getProfile()
             setUser(response)
+            navigate('/profile')
         } catch (error) {
             console.error('cannot get profile', error)
             toast.error('cannot get profile , please try again later')
@@ -30,13 +33,8 @@ export const useUser = () => {
         setUserProfile(null)
         try {
             const response = await userApi.searchUser(username)
-
-            if (response.username !== username) {
-                setUserProfile(null)
-            } else {
-                setUserProfile(response)
-            }
-
+            setUserProfile(response)
+            navigate(`/user/${username}`)
         } catch (error) {
             console.error('cannot get Profile', error)
             toast.error('cannot Get user, please try again later')
@@ -45,18 +43,24 @@ export const useUser = () => {
         }
     }
 
-    const updateProfile = async (formData: UpdateProfile) => {
+    const updateProfile = async (formData: FormData) => {
         setLoading(true)
         try {
-            const response = await userApi.updatePofile(formData)
-            setUser((prev) => {
-                if (!prev) return null
+            const response = await userApi.updateProfile(formData)
+            const currentUser = user
 
-                return {
-                    ...prev,
-                    ...response
-                }
-            })
+            if (!currentUser) {
+            toast.error("User Not Found.");
+            setLoading(false);
+            return;
+            }
+
+            const result = {
+                ...currentUser,
+                ...response
+            }
+            setUser(result)
+            localStorage.setItem('user', JSON.stringify(result));
 
             toast.success('Successfull Edit profile')
         } catch (error) {

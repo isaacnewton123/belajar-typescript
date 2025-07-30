@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type {  AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData,  Comment, Credential, UserProfile, Post, Posts, User } from './types';
+import type { AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData, Comment, Credential, UserProfile, Post, Posts, User } from './types';
 
 // Base Url
 const baseURL = import.meta.env.VITE_API_URL
@@ -55,8 +55,12 @@ export const userApi = {
         const response = await apiClient.get<User>('/users/profile')
         return response.data
     },
-    updatePofile: async (formData: UpdateProfile): Promise<UpdateProfile> => {
-        const response = await apiClient.put<UpdateProfile>('/users/profile', formData)
+    updateProfile: async (formData: FormData): Promise<UpdateProfile> => {
+        const response = await apiClient.put<UpdateProfile>('/users/profile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })
         return response.data
     },
     searchUser: async (username: string): Promise<UserProfile> => {

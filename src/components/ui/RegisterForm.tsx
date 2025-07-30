@@ -46,10 +46,10 @@ export function RegisterForm({
     }
 
     const formRegister: UserData = {
-      fullName: fullName,
-      username: username,
-      email: email,
-      password: password
+      "username": username,
+      "email": email,
+      "password": password,
+      "fullName": fullName,
     }
 
     register(formRegister)
@@ -117,8 +117,8 @@ export function RegisterForm({
                   type="password"
                   value={password}
                   className={`${password.length > 0 && (password !== resubmit || password.length < 8)
-                      ? 'bg-rose-50'
-                      : ''
+                    ? 'bg-rose-50'
+                    : ''
                     }`}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -132,8 +132,8 @@ export function RegisterForm({
                   id="resubmit-password"
                   type="password"
                   className={`${resubmit.length > 0 && (password !== resubmit || resubmit.length < 8)
-                      ? 'bg-rose-50'
-                      : ''
+                    ? 'bg-rose-50'
+                    : ''
                     }`}
                   value={resubmit}
                   onChange={(e) => setResubmit(e.target.value)}

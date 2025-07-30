@@ -6,7 +6,7 @@ import { useAuthContext } from '@/contexts/auth/useAuthContext';
 import { toast } from 'react-toastify';
 
 import Picker from '@emoji-mart/react';
-import data, { type Emoji } from '@emoji-mart/data';
+import data from '@emoji-mart/data';
 import ImgButton from './imgButton';
 
 
@@ -21,9 +21,19 @@ const CreatePostForm: React.FC = () => {
   const { user } = useAuthContext()
   const { createPost } = usePost()
 
+  interface EmojiMartData {
+  id: string;
+  name: string;
+  native: string;
+  unified: string;
+  keywords: string[];
+  shortcodes: string;
+  emoticons?: string[];
+}
 
-  const handleEmojiPicker = (emoji: Emoji) => {
-    setContent(currentContent => currentContent + emoji.emoticons);
+
+  const handleEmojiPicker = (emoji: EmojiMartData) => {
+    setContent(currentContent => currentContent + emoji.native);
   }
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +94,7 @@ const CreatePostForm: React.FC = () => {
             <textarea
               className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={3}
-              placeholder="Apa yang kamu pikirkan? (Wajib diisi)"
+              placeholder="What are you thinking? (Required)"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             />
@@ -108,29 +118,31 @@ const CreatePostForm: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="hover:text-blue-600 p-2 rounded-full"
+                  className="hover:text-blue-600 p-2 rounded-full cursor-pointer"
                   aria-label="Add Image"
                 >
-                  <FiImage />
+                  <FiImage className='w-5 h-5' />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                  className="hover:text-blue-600 p-2 rounded-full"
-                  aria-label="Add Emoji">
-                  <FiSmile />
-                </button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                    className="hover:text-blue-600 p-2 rounded-full cursor-pointer"
+                    aria-label="Add Emoji">
+                    <FiSmile className='w-5 h-5' />
+                  </button>
 
 
-                {showEmojiPicker && (
-                  <div className="absolute z-10 bottom-full mb-2">
-                    <Picker
-                      data={data}
-                      onEmojiSelect={handleEmojiPicker}
-                      theme="light"
-                    />
-                  </div>
-                )}
+                  {showEmojiPicker && (
+                    <div className="absolute z-10 top-full mt-2">
+                      <Picker
+                        data={data}
+                        onEmojiSelect={handleEmojiPicker}
+                        theme="light"
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <input
                   type="file"
@@ -145,7 +157,7 @@ const CreatePostForm: React.FC = () => {
                 className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300 disabled:bg-blue-300 disabled:cursor-not-allowed"
                 disabled={!content.trim()}
               >
-                Posting
+                Post
               </button>
             </div>
           </div>

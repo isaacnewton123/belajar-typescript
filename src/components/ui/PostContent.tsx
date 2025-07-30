@@ -3,13 +3,18 @@ import ImgButton from "./imgButton"
 import { BiSolidLike } from "react-icons/bi";
 import { BiLike } from "react-icons/bi";
 import { FaRegCommentAlt } from "react-icons/fa";
+import { formatTimeAgo } from "../utils/formatDate"
+
 
 interface PostContentProps extends Post {
-  onGetPost: () => void;
-  onLike: () => void;
+    onGetPost: () => void;
+    onLike: () => void;
 }
 
 const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onGetPost, onLike }: PostContentProps) => {
+
+    const date = formatTimeAgo(createdAt)
+
     return (
         <div className="bg-white rounded-lg shadow-sm mb-6 hover:bg-gray-50 transition">
             {/* <!-- Header Post --> */}
@@ -21,7 +26,7 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
                     }} />
                     <div>
                         <p className="font-semibold text-gray-800">{fullName}</p>
-                        <p className="text-xs text-gray-500">{createdAt}</p>
+                        <p className="text-xs text-gray-500">{date}</p>
                     </div>
                 </div>
                 <button className="text-gray-400 hover:text-gray-600 p-2 rounded-full">

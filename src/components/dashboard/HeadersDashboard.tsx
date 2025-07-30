@@ -6,11 +6,21 @@ import { useAuthContext } from "@/contexts/auth/useAuthContext";
 import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGroup, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import ImgButton from "@/components/ui/imgButton";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
+import { useUser } from "@/hooks/useUser";
 
 
 const HeadersDashboard = ({ home = 'text-gray-600', search = 'text-gray-600', feeds = 'text-gray-600' }) => {
 
     const { user } = useAuthContext()
+    const { logout } = useAuth()
+    const { getProfile } = useUser()
+
+    useEffect(() => {
+
+        console.log(user)
+    }, [user])
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-40">
@@ -21,14 +31,14 @@ const HeadersDashboard = ({ home = 'text-gray-600', search = 'text-gray-600', fe
                     </button>
 
                     <div className="flex items-center space-x-5">
-                        <Link to={'/home'} className={`cursor-pointer hover:text-blue-600${home}`}>
-                            <AiOutlineHome className='w-6 h-6' />
+                        <Link to={'/home'} >
+                            <AiOutlineHome className={`w-6 h-6 cursor-pointer hover:text-blue-600 ${home}`} />
                         </Link>
-                        <Link to={'/feeds'} className={`cursor-pointer hover:text-blue-600${feeds}`}>
-                            <ImFeed className='w-6 h-6' />
+                        <Link to={'/feeds'} >
+                            <ImFeed className={`w-6 h-6 cursor-pointer hover:text-blue-600 ${feeds}`} />
                         </Link>
-                        <Link to={'/search'} className={`cursor-pointer hover:text-blue-600${search}`}>
-                            <IoSearchSharp className='w-6 h-6' />
+                        <Link to={'/search'} >
+                            <IoSearchSharp className={`w-6 h-6 cursor-pointer hover:text-blue-600 ${search}`} />
                         </Link>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -43,10 +53,10 @@ const HeadersDashboard = ({ home = 'text-gray-600', search = 'text-gray-600', fe
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56" align="start">
                                 <DropdownMenuGroup>
-                                    <DropdownMenuItem className=" cursor-pointer">
+                                    <DropdownMenuItem onClick={getProfile} className=" cursor-pointer">
                                         Profile
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem className="text-red-600 cursor-pointer">
+                                    <DropdownMenuItem onClick={logout} className="text-red-600 cursor-pointer">
                                         <SlLogout className="w-3 h-3 text-red-500" /> Log Out
                                     </DropdownMenuItem>
                                 </DropdownMenuGroup>

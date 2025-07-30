@@ -1,10 +1,16 @@
 import ImgButton from "@/components/ui/imgButton"
 import type { UserSearch } from "@/services/types"
 
-const ResultUser = ({ fullName, username, followersCount, avatar }: UserSearch) => {
+interface typeSearchUpdate extends UserSearch {
+    onGetUser: () => void;
+}
+
+const ResultUser = ({ fullName, username, followersCount, avatar, onGetUser }: typeSearchUpdate) => {
 
     return (
-        <div className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+        <div
+            className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            onClick={onGetUser}>
             <div className="flex items-center space-x-4">
                 <ImgButton profile={{
                     avatar: avatar,
@@ -21,9 +27,6 @@ const ResultUser = ({ fullName, username, followersCount, avatar }: UserSearch) 
                     </p>
                 </div>
             </div>
-            <button className="bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-blue-700">
-                Follow
-            </button>
         </div>
     )
 }

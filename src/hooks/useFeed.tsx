@@ -1,12 +1,13 @@
 import { useFeedsContext } from "@/contexts/feed/useFeedContext";
 import { feedAPI } from "@/services/api";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
+import { useCallback } from "react";
 
 export const useFeed = () => {
     const { setFeeds } = useFeedsContext()
     const { setLoading } = useLoadingContext()
 
-    const getFeeds = async (page = 1, limit = 10, reset = false) => {
+    const getFeeds = useCallback(async (page = 1, limit = 10, reset = false) => {
         setLoading(true)
         try {
             const response = await feedAPI.getFeed(page, limit)
@@ -28,7 +29,7 @@ export const useFeed = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setFeeds])
 
     return {
         getFeeds
