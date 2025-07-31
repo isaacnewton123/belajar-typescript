@@ -86,7 +86,7 @@ export const useUser = () => {
                 return {
                     ...prev,
                     isFollowing: true,
-                    followersCount: prev.isFollowing === false ? prev.followersCount + 1 : prev.followersCount - 1
+                    followersCount: prev.followersCount + 1
                 }
             })
             setUser((prev) => {
@@ -112,7 +112,7 @@ export const useUser = () => {
                 return {
                     ...prev,
                     isFollowing: false,
-                    followersCount: prev.isFollowing === true ? prev.followersCount - 1 : prev.followersCount + 1
+                    followersCount: prev.followersCount - 1
                 }
             })
 
