@@ -9,9 +9,10 @@ import { formatTimeAgo } from "../utils/formatDate"
 interface PostContentProps extends Post {
     onGetPost: () => void;
     onLike: () => void;
+    onUnlike: () => void
 }
 
-const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onGetPost, onLike }: PostContentProps) => {
+const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onGetPost, onLike, onUnlike }: PostContentProps) => {
 
     const date = formatTimeAgo(createdAt)
 
@@ -22,7 +23,7 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
                 <div className="flex items-center space-x-3">
                     <ImgButton profile={{
                         avatar: avatar,
-                        fullName: fullName
+                        fullName: fullName,
                     }} />
                     <div>
                         <p className="font-semibold text-gray-800">{fullName}</p>
@@ -42,7 +43,8 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
             {/* <!-- action post --> */}
             <div className="p-4 flex justify-between items-center text-gray-500">
                 <div className="flex space-x-5">
-                    <button className="flex items-center space-x-2 hover:text-red-500 cursor-pointer" onClick={onLike}>
+
+                    <button className="flex items-center space-x-2 hover:text-red-500 cursor-pointer" onClick={isLiked === false ? onLike : onUnlike}>
                         {isLiked === true ? <BiSolidLike className='text-blue-700 ' /> : <BiLike />}
                         <span>{likesCount} Likes</span>
                     </button>

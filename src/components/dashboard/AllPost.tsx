@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 const AllPost = () => {
     const { posts } = usePostContext()
-    const { fetchPost, getPost, likePost } = usePost()
+    const { fetchPost, revwieSinglePost, likePost, unlikePost } = usePost()
 
     const post = posts?.posts
 
@@ -24,8 +24,9 @@ const AllPost = () => {
                         <PostContent
                             key={a.id}
                             {...a}
-                            onGetPost={() => getPost(a.id)}
+                            onGetPost={() => revwieSinglePost(a.id)}
                             onLike={() => likePost(a.id)}
+                            onUnlike={() => unlikePost(a.id)}
                         />
                     )}
                 </div>

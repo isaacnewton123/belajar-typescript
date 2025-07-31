@@ -7,15 +7,17 @@ import { useFeed } from "@/hooks/useFeed"
 
 const FeedsPost = () => {
     const { feeds } = useFeedsContext()
-    const { getPost, likePost } = usePost()
+    const { getPost, likePost, unlikePost } = usePost()
     const { getFeeds } = useFeed()
+    
+    const feed = feeds?.posts
 
 
     useEffect(() => {
         getFeeds(1, 10, true)
     }, [getFeeds])
 
-    const feed = feeds?.posts
+
 
     return (
         <main className="container mx-auto min-h-screen px-4 mt-6">
@@ -28,6 +30,7 @@ const FeedsPost = () => {
                             {...a}
                             onGetPost={() => getPost(a.id)}
                             onLike={() => likePost(a.id)}
+                            onUnlike={() => unlikePost(a.id)}
                         />
                     )}
                 </div>

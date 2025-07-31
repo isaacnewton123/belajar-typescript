@@ -8,7 +8,7 @@ const Comments = ({ postId }: { postId: string }) => {
     const comment = comments?.comments
 
     return (
-        <div className="bg-white rounded-lg shadow-sm mt-6">
+        <div>
             <CommentForm postId={postId} />
             <div className="divide-y divide-gray-100">
                 {comment?.length

@@ -2,6 +2,7 @@ import { useCommentsContext } from "@/contexts/comment/useCommentContext";
 import { commentAPI } from "@/services/api";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { toast } from "react-toastify";
+import { useCallback } from "react";
 
 
 export const useComment = () => {
@@ -9,7 +10,7 @@ export const useComment = () => {
     const { setLoading } = useLoadingContext()
 
 
-    const getComments = async (postId: string) => {
+    const getComments = useCallback(async (postId: string) => {
         setLoading(true)
         try {
             const response = await commentAPI.getComment(postId)
@@ -20,23 +21,23 @@ export const useComment = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [setComments, setLoading])
 
-    const createComment = async (postId: string, content: string) => {
+    const createComment = useCallback(async (postId: string, content: string) => {
         setLoading(true)
         try {
-           await commentAPI.createComment(postId, content)
-           toast.success('your comment has ben created')
-           getComments(postId) 
+            await commentAPI.createComment(postId, content)
+            toast.success('your comment has ben created')
+            getComments(postId)
         } catch (error) {
             console.error('cannot create comment', error)
             toast.error('cannot create comment , please try again later')
         } finally {
             setLoading(false)
         }
-    }
+    },[getComments, setLoading])
 
-    const deleteComment = async (commentId: string, postId: string) => {
+    const deleteComment = useCallback(async (commentId: string, postId: string) => {
         setLoading(true)
         try {
             await commentAPI.deleteComment(commentId)
@@ -48,7 +49,7 @@ export const useComment = () => {
         } finally {
             setLoading(false)
         }
-    }
+    },[getComments, setLoading])
 
     return {
         getComments,

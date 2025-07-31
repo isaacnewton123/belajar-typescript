@@ -4,17 +4,18 @@ import { useUserContext } from "@/contexts/user/useUserContext";
 import { toast } from "react-toastify";
 import { useAuthContext } from "@/contexts/auth/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { useCallback } from "react";
 
 
 export const useUser = () => {
 
     const { setUserProfile } = useUserContext()
     const { setLoading } = useLoadingContext()
-    const {user, setUser } = useAuthContext()
+    const { user, setUser } = useAuthContext()
 
     const navigate = useNavigate()
 
-    const getProfile = async () => {
+    const getProfile = useCallback(async () => {
         setLoading(true)
         try {
             const response = await userApi.getProfile()
@@ -26,33 +27,37 @@ export const useUser = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [navigate, setLoading, setUser])
 
-    const getUserProfile = async (username: string) => {
+    const getUserProfile = useCallback(async (username: string) => {
         setLoading(true)
-        setUserProfile(null)
         try {
             const response = await userApi.searchUser(username)
             setUserProfile(response)
-            navigate(`/user/${username}`)
         } catch (error) {
             console.error('cannot get Profile', error)
             toast.error('cannot Get user, please try again later')
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setUserProfile])
 
-    const updateProfile = async (formData: FormData) => {
+
+    const viewUserProfile = useCallback((username: string) => {
+        navigate(`/user/${username}`);
+    }, [navigate])
+
+
+    const updateProfile = useCallback(async (formData: FormData) => {
         setLoading(true)
         try {
             const response = await userApi.updateProfile(formData)
             const currentUser = user
 
             if (!currentUser) {
-            toast.error("User Not Found.");
-            setLoading(false);
-            return;
+                toast.error("User Not Found.");
+                setLoading(false);
+                return;
             }
 
             const result = {
@@ -69,10 +74,10 @@ export const useUser = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setUser, user])
 
 
-    const followUser = async (userId: string) => {
+    const followUser = useCallback(async (userId: string) => {
         try {
             await userApi.followUser(userId)
             setUserProfile((prev) => {
@@ -81,7 +86,7 @@ export const useUser = () => {
                 return {
                     ...prev,
                     isFollowing: true,
-                    followersCount: prev.isFollowing ? prev.followersCount + 1 : prev.followersCount - 1
+                    followersCount: prev.isFollowing === false ? prev.followersCount + 1 : prev.followersCount - 1
                 }
             })
             setUser((prev) => {
@@ -96,9 +101,9 @@ export const useUser = () => {
             console.log('cannot follow User', error)
             toast.error('cannot follow user , please try again later')
         }
-    }
+    }, [setUser, setUserProfile])
 
-    const unfollowUser = async (userId: string) => {
+    const unfollowUser = useCallback(async (userId: string) => {
         try {
             await userApi.unfollowUser(userId)
             setUserProfile((prev) => {
@@ -107,7 +112,7 @@ export const useUser = () => {
                 return {
                     ...prev,
                     isFollowing: false,
-                    followersCount: prev.isFollowing ? prev.followersCount - 1 : prev.followersCount + 1
+                    followersCount: prev.isFollowing === true ? prev.followersCount - 1 : prev.followersCount + 1
                 }
             })
 
@@ -123,11 +128,12 @@ export const useUser = () => {
             console.error('cannot unfollow user', error)
             toast.error('cannot unfollow user , please try again later')
         }
-    }
+    }, [setUser, setUserProfile])
 
     return {
         getProfile,
         getUserProfile,
+        viewUserProfile,
         updateProfile,
         followUser,
         unfollowUser

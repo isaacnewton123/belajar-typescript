@@ -1,7 +1,6 @@
 import type { User, UserProfile } from "@/services/types"
 import { IoCalendar } from "react-icons/io5";
 import { format } from 'date-fns';
-import { useEffect } from "react";
 
 
 type DetailUserProps = {
@@ -10,10 +9,6 @@ type DetailUserProps = {
 };
 
 const DetailUser = ({ user, actionButton }: DetailUserProps) => {
-
-    useEffect(() => {
-        console.log(user.createdAt)
-    }, [user])
 
     const API_BASE_URL = import.meta.env.VITE_API_IMAGE ;
 

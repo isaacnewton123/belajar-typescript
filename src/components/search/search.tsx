@@ -11,7 +11,7 @@ const Search = () => {
     const [q, setQ] = useState<string>('');
     const { search, setSearch } = useSearchContext();
     const { getSearch } = useSearch();
-    const { getUserProfile } = useUser()
+    const { viewUserProfile } = useUser()
 
     useEffect(() => {
         const time = setTimeout(() => {
@@ -43,7 +43,7 @@ const Search = () => {
                         <ResultUser
                             key={user.id}
                             {...user}
-                            onGetUser={() => getUserProfile(user.username)}
+                            onGetUser={() => viewUserProfile(user.username)}
                         />
                     ))}
                 </div>

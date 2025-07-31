@@ -1,37 +1,32 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { FollowToggleButton } from "@/components/ui/buttonProfile";
 import DetailUser from "@/components/ui/DetailUser";
-import { useUserContext } from "@/contexts/user/useUserContext";
+import ImgCover from "@/components/ui/imgConver";
 import { useUser } from "@/hooks/useUser";
+import type { UserProfile as UserProfileType } from '@/services/types';
 
-const UserProfile = () => {
-    const { username } = useParams<{ username: string }>();
-    const { userProfile } = useUserContext();
-    const { getUserProfile, followUser, unfollowUser } = useUser();
+const UserProfile = ({ user }: { user: UserProfileType }) => {
 
-    useEffect(() => {
-        if (username) {
-            getUserProfile(username);
-        }
-    }, [username, getUserProfile]);
-
-    if (!userProfile) {
-        return ;
-    }
+    const { followUser, unfollowUser } = useUser();
 
     return (
-        <div>
-            <DetailUser
-                user={userProfile}
-                actionButton={
-                    <FollowToggleButton
-                        isFollowing={userProfile.isFollowing}
-                        onFollow={() => followUser(userProfile.id)}
-                        onUnfollow={() => unfollowUser(userProfile.id)}
-                    />
-                }
-            />
+        <div className="container mx-auto min-h-screen px-4 mt-6">
+            <div className="flex justify-center">
+                <div className="w-full max-w-3xl">
+                    <div className="bg-white rounded-lg shadow-sm">
+                        <ImgCover />
+                        <DetailUser
+                            user={user}
+                            actionButton={
+                                <FollowToggleButton
+                                    isFollowing={user.isFollowing}
+                                    onFollow={() => followUser(user.id)}
+                                    onUnfollow={() => unfollowUser(user.id)}
+                                />
+                            }
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

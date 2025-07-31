@@ -5,12 +5,14 @@ import { toast } from "react-toastify";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
+import { useFeedsContext } from "@/contexts/feed/useFeedContext";
 
 export const usePost = () => {
     const { setPosts, setSinglePost } = usePostContext()
+    const { setFeeds } = useFeedsContext()
 
     const { setLoading } = useLoadingContext()
-    
+
     const navigate = useNavigate()
 
     const fetchPost = useCallback(async (pages = 1, limit = 10, reset = false) => {
@@ -55,7 +57,7 @@ export const usePost = () => {
         }
     }
 
-    const deletePost = async (postId: string) => {
+    const deletePost = useCallback(async (postId: string) => {
         setLoading(true)
         try {
             await postAPI.deletePost(postId)
@@ -76,39 +78,55 @@ export const usePost = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setPosts])
 
-    const likePost = async (postId: string) => {
-        try {
-            await postAPI.likePost(postId)
-            setPosts((prev) => {
-                if (!prev) return null
+    const likePost = useCallback(async (postId: string) => {
+        setPosts((prev) => {
+            if (!prev) return null
 
-                const updatePost = prev.posts.map((post) => {
-                    if (post.id !== postId) {
-                        return post
-                    }
+            const updatePost = prev.posts.map((post) => {
+                if (post.id !== postId) {
+                    return post
+                }
 
-                    return {
-                        ...post,
-                        isLiked: true,
-                        likesCount: post.isLiked ? post.likesCount + 1 : post.likesCount -1
-                    }
-                })
                 return {
-                    ...prev,
-                    posts: updatePost
+                    ...post,
+                    isLiked: true,
+                    likesCount: post.likesCount + 1
                 }
             })
+            return {
+                ...prev,
+                posts: updatePost
+            }
+        })
+
+        setFeeds((prev) => {
+            if (!prev) return null
+
+            const updatePost = prev.posts.map((post) => {
+                if (post.id !== postId) {
+                    return post
+                }
+
+                return {
+                    ...post,
+                    isLiked: true,
+                    likesCount: post.likesCount + 1
+                }
+            })
+            return {
+                ...prev,
+                posts: updatePost
+            }
+        })
+
+        try {
+            await postAPI.likePost(postId)
+
         } catch (error) {
             console.error('cannot like post', error)
             toast.error('cannot like post , please try again later')
-        }
-    }
-
-    const unlikePost = async (postId: string) => {
-        try {
-            await postAPI.unlikePost(postId)
             setPosts((prev) => {
                 if (!prev) return null
 
@@ -120,7 +138,95 @@ export const usePost = () => {
                     return {
                         ...post,
                         isLiked: false,
-                        likesCount: post.isLiked ? post.likesCount - 1 : post.likesCount + 1
+                        likesCount: post.likesCount - 1
+                    }
+                })
+                return {
+                    ...prev,
+                    posts: updatePost
+                }
+            })
+            setFeeds((prev) => {
+                if (!prev) return null
+
+                const updatePost = prev.posts.map((post) => {
+                    if (post.id !== postId) {
+                        return post
+                    }
+
+                    return {
+                        ...post,
+                        isLiked: false,
+                        likesCount: post.likesCount - 1
+                    }
+                })
+                return {
+                    ...prev,
+                    posts: updatePost
+                }
+            })
+        }
+    }, [setFeeds, setPosts])
+
+    const unlikePost = useCallback(async (postId: string) => {
+        setPosts((prev) => {
+            if (!prev) return null
+
+            const updatePost = prev.posts.map((post) => {
+                if (post.id !== postId) {
+                    return post
+                }
+
+                return {
+                    ...post,
+                    isLiked: false,
+                    likesCount: post.likesCount - 1
+                }
+            })
+
+            return {
+                ...prev,
+                posts: updatePost
+            }
+        })
+        setFeeds((prev) => {
+            if (!prev) return null
+
+            const updatePost = prev.posts.map((post) => {
+                if (post.id !== postId) {
+                    return post
+                }
+
+                return {
+                    ...post,
+                    isLiked: false,
+                    likesCount: post.likesCount - 1
+                }
+            })
+
+            return {
+                ...prev,
+                posts: updatePost
+            }
+        })
+        try {
+            await postAPI.unlikePost(postId)
+
+        } catch (error) {
+            console.error('cannot unlike post', error)
+            toast.error('cannot unLike Post, please try again later')
+            setPosts((prev) => {
+                if (!prev) return null
+
+                const updatePost = prev.posts.map((post) => {
+                    if (post.id !== postId) {
+                        return post
+                    }
+
+                    return {
+                        ...post,
+                        isLiked: true,
+                        likesCount: post.likesCount + 1
                     }
                 })
 
@@ -129,32 +235,53 @@ export const usePost = () => {
                     posts: updatePost
                 }
             })
-        } catch (error) {
-            console.error('cannot unlike post', error)
-            toast.error('cannot unLike Post, please try again later')
-        }
-    }
+            setFeeds((prev) => {
+                if (!prev) return null
 
-    const getPost = async (postId: string) => {
+                const updatePost = prev.posts.map((post) => {
+                    if (post.id !== postId) {
+                        return post
+                    }
+
+                    return {
+                        ...post,
+                        isLiked: true,
+                        likesCount: post.likesCount + 1
+                    }
+                })
+
+                return {
+                    ...prev,
+                    posts: updatePost
+                }
+            })
+
+        }
+    }, [setFeeds, setPosts])
+
+    const getPost = useCallback(async (postId: string) => {
         setLoading(true);
-        setSinglePost(null)
         try {
             const singlePost = await postAPI.getPost(postId);
             setSinglePost(singlePost)
-            navigate(`post/${postId}`)
         } catch (error) {
             console.error('cannot get post', error)
             toast.error('cannot get post , please try again later')
         } finally {
             setLoading(false)
         }
-    }
+    }, [setLoading, setSinglePost])
+
+    const revwieSinglePost = useCallback((postId: string) => {
+        navigate(`/post/${postId}`)
+    }, [navigate])
 
     return {
         createPost,
         deletePost,
         getPost,
         likePost,
+        revwieSinglePost,
         unlikePost,
         fetchPost
     }

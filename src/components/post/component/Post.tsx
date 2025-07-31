@@ -4,16 +4,17 @@ import { usePost } from "@/hooks/usePost"
 
 const Post = () => {
     const { singlePost } = usePostContext()
-    const { likePost } = usePost()
+    const { likePost, unlikePost } = usePost()
 
     const handleDummyClick = () => {};
 
     return (
-        <div className="bg-white rounded-lg shadow-sm">
+        <div>
             {singlePost && (
                 <PostContent
                 {...singlePost}
                 onLike={() => singlePost.id && likePost(singlePost.id)}
+                onUnlike={() => singlePost.id && unlikePost(singlePost.id)}
                 onGetPost={handleDummyClick}
                 />
             )}
