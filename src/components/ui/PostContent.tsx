@@ -11,6 +11,7 @@ interface PostContentProps extends Post {
     onLike: () => void;
     onUnlike: () => void
 }
+const API_BASE_URL = import.meta.env.VITE_API_IMAGE;
 
 const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, likesCount, commentsCount, isLiked, onGetPost, onLike, onUnlike }: PostContentProps) => {
 
@@ -39,7 +40,7 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
                 <p>{content}</p>
             </div>
             {/* <!-- Image Post --> */}
-            {image !== null ? <img src={image} className="w-full h-auto" /> : <></>}
+            {image ? <img src={`${API_BASE_URL}/uploads/${image}`} className="w-full h-auto" /> : <></>}
             {/* <!-- action post --> */}
             <div className="p-4 flex justify-between items-center text-gray-500">
                 <div className="flex space-x-5">

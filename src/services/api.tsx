@@ -80,7 +80,11 @@ export const userApi = {
 
 export const postAPI = {
     createPost: async (formData: FormPost): Promise<Post> => {
-        const response = await apiClient.post<Post>('/posts', formData)
+        const response = await apiClient.post<Post>('/posts', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })
         return response.data
     },
     getAllPost: async (pages = 1, limit = 10): Promise<Posts> => {
