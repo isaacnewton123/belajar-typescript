@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react"
 import ImgButton from "./imgButton"
 import { useComment } from "@/hooks/useComment"
 import { useAuthContext } from "@/contexts/auth/useAuthContext"
+import type { CreateComment } from "@/services/types"
 
 const CommentForm = ({ postId }: { postId: string }) => {
     const [content, setContent] = useState<string>('')
@@ -13,7 +14,11 @@ const CommentForm = ({ postId }: { postId: string }) => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
         if (!content.trim()) return;
-        createComment(postId, content)
+
+        const result: CreateComment = {
+            content: content
+        }
+        createComment(postId, result)
         setContent('')
     }
 

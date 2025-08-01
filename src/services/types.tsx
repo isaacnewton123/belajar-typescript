@@ -120,6 +120,10 @@ export interface Search {
     users: UserSearch[];
 }
 
+export interface CreateComment {
+    content: string
+}
+
 export interface Feeds {
     posts: Post[];
     hasMore: boolean;

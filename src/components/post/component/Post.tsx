@@ -1,20 +1,20 @@
 import PostContent from "@/components/ui/PostContent"
-import { usePostContext } from "@/contexts/posts/usePostContext"
 import { usePost } from "@/hooks/usePost"
+import type { Post } from "@/services/types"
 
-const Post = () => {
-    const { singlePost } = usePostContext()
+const PostSingle = ({post} : {post: Post}) => {
     const { likePost, unlikePost } = usePost()
 
     const handleDummyClick = () => {};
 
     return (
         <div>
-            {singlePost && (
+            {post && (
                 <PostContent
-                {...singlePost}
-                onLike={() => singlePost.id && likePost(singlePost.id)}
-                onUnlike={() => singlePost.id && unlikePost(singlePost.id)}
+                key={post.id}
+                {...post}
+                onLike={() => post.id && likePost(post.id)}
+                onUnlike={() => post.id && unlikePost(post.id)}
                 onGetPost={handleDummyClick}
                 />
             )}
@@ -22,4 +22,4 @@ const Post = () => {
     )
 }
 
-export default Post
+export default PostSingle

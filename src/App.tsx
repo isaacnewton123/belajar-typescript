@@ -29,7 +29,6 @@ function App() {
               <FeedsProvider>
                 <CommentsProvider>
                   <SearchProvider>
-                    <div>
                       <Routes>
                         <Route path="/" element={<Navigate to={"/home"} />} />
                         <Route path="/login" element={<LoginPages />} />
@@ -52,7 +51,7 @@ function App() {
                           } />
 
                         <Route
-                          path="/post/:userId"
+                          path="/post/:postId"
                           element={
                             <ProtectedRoute>
                               <SinglePostPages />
@@ -84,7 +83,6 @@ function App() {
                           } />
 
                       </Routes>
-                    </div>
                   </SearchProvider>
                 </CommentsProvider>
               </FeedsProvider>

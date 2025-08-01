@@ -3,6 +3,7 @@ import { commentAPI } from "@/services/api";
 import { useLoadingContext } from "@/contexts/useLoadingContext";
 import { toast } from "react-toastify";
 import { useCallback } from "react";
+import type { CreateComment } from '@/services/types'
 
 
 export const useComment = () => {
@@ -23,7 +24,7 @@ export const useComment = () => {
         }
     }, [setComments, setLoading])
 
-    const createComment = useCallback(async (postId: string, content: string) => {
+    const createComment = useCallback(async (postId: string, content: CreateComment) => {
         setLoading(true)
         try {
             await commentAPI.createComment(postId, content)
@@ -35,7 +36,7 @@ export const useComment = () => {
         } finally {
             setLoading(false)
         }
-    },[getComments, setLoading])
+    }, [getComments, setLoading])
 
     const deleteComment = useCallback(async (commentId: string, postId: string) => {
         setLoading(true)
@@ -49,7 +50,7 @@ export const useComment = () => {
         } finally {
             setLoading(false)
         }
-    },[getComments, setLoading])
+    }, [getComments, setLoading])
 
     return {
         getComments,

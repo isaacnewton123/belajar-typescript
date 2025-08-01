@@ -1,33 +1,20 @@
-import { useEffect } from "react"
-import { useComment } from "@/hooks/useComment"
-import Post from "./component/Post"
+
+import type { Post } from "@/services/types"
 import Comments from "./component/comments"
-import { useParams } from "react-router-dom"
-import { usePost } from "@/hooks/usePost"
+import PostSingle from "./component/Post"
 
-const SinglePost = () => {
+interface SinglePostProps {
+    post: Post;
+    postId: string;
+}
 
-    const { postId } = useParams<{ postId: string }>()
-    const { getPost } = usePost()
-    const { getComments } = useComment()
-
-    useEffect(() => {
-        if (postId) {
-            getPost(postId)
-            getComments(postId)
-            
-        }
-    }, [postId, getComments, getPost])
-
-    if (!postId) {
-        return null;
-    }
+const SinglePost = ({post, postId}: SinglePostProps) => {
 
     return (
-        <div className="container mx-auto px-4 mt-6">
+        <div className="container min-h-screen mx-auto px-4 mt-6">
             <div className="flex justify-center">
                 <div className="w-full max-w-3xl">
-                    <Post />
+                    <PostSingle post={post} />
                     <div className="bg-white rounded-lg shadow-sm">
                     <Comments
                         postId={postId}

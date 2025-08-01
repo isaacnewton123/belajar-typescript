@@ -121,6 +121,18 @@ export const usePost = () => {
             }
         })
 
+        setSinglePost((prev) => {
+            if(!prev) {
+                return null
+            }
+
+            return {
+                ...prev,
+                isLiked: true,
+                likesCount: prev.likesCount + 1
+            }
+        })
+
         try {
             await postAPI.likePost(postId)
 
@@ -165,8 +177,18 @@ export const usePost = () => {
                     posts: updatePost
                 }
             })
+
+            setSinglePost((prev) => {
+                if(!prev) return null
+
+                return {
+                    ...prev,
+                    isLiked: false,
+                    likesCount: prev.likesCount - 1
+                }
+            })
         }
-    }, [setFeeds, setPosts])
+    }, [setFeeds, setPosts, setSinglePost])
 
     const unlikePost = useCallback(async (postId: string) => {
         setPosts((prev) => {
@@ -207,6 +229,16 @@ export const usePost = () => {
             return {
                 ...prev,
                 posts: updatePost
+            }
+        })
+
+        setSinglePost((prev) => {
+            if(!prev) return null
+
+            return {
+                ...prev,
+                isLiked: false,
+                likesCount: prev.likesCount - 1
             }
         })
         try {
@@ -256,8 +288,18 @@ export const usePost = () => {
                 }
             })
 
+            setSinglePost((prev) => {
+                if(!prev) return null
+
+                return {
+                    ...prev,
+                    isLiked: true,
+                    likesCount: prev.likesCount + 1
+                }
+            })
+
         }
-    }, [setFeeds, setPosts])
+    }, [setFeeds, setPosts, setSinglePost])
 
     const getPost = useCallback(async (postId: string) => {
         setLoading(true);

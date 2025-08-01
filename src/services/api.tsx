@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import type { AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData, Comment, Credential, UserProfile, Post, Posts, User } from './types';
+import type { AuthResponse, Comments, Feeds, FormPost, Search, UpdateProfile, UserData, Comment, Credential, UserProfile, Post, Posts, User, CreateComment } from './types';
 
 // Base Url
 const baseURL = import.meta.env.VITE_API_URL
@@ -110,7 +110,7 @@ export const postAPI = {
 // comment api function collection
 
 export const commentAPI = {
-    createComment: async (postId: string, content: string): Promise<Comment> => {
+    createComment: async (postId: string, content: CreateComment): Promise<Comment> => {
         const response = await apiClient.post<Comment>(`/posts/${postId}/comments`, content)
         return response.data
     },
