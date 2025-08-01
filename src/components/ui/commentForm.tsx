@@ -25,7 +25,8 @@ const CommentForm = ({ postId }: { postId: string }) => {
     return (
         <form onSubmit={handleSubmit} className="p-4 border-b border-gray-200">
             <div className="flex items-center space-x-3">
-                <ImgButton profile={{
+                <ImgButton 
+                    profile={{
                     avatar: user?.avatar,
                     fullName: user?.fullName
                 }} />

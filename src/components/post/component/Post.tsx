@@ -2,6 +2,7 @@ import PostContent from "@/components/ui/PostContent"
 import { usePost } from "@/hooks/usePost"
 import type { Post } from "@/services/types"
 
+
 const PostSingle = ({post} : {post: Post}) => {
     const { likePost, unlikePost } = usePost()
 

@@ -25,7 +25,8 @@ const PostContent = ({ user: { avatar, fullName }, createdAt, content, image, li
                     <ImgButton profile={{
                         avatar: avatar,
                         fullName: fullName,
-                    }} />
+                    }}
+                    />
                     <div>
                         <p className="font-semibold text-gray-800">{fullName}</p>
                         <p className="text-xs text-gray-500">{date}</p>

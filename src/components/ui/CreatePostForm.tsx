@@ -86,7 +86,8 @@ const CreatePostForm: React.FC = () => {
     <div className='md:block bg-white p-4 rounded-lg shadow-sm mb-6'>
         <form onSubmit={handleSubmit}>
           <div className="flex items-start space-x-4">
-            <ImgButton profile={{
+            <ImgButton 
+              profile={{
               avatar: user?.avatar,
               fullName: user?.fullName
             }} />

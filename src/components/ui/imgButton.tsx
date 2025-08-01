@@ -3,6 +3,7 @@ type ProfileProps = {
         avatar?: string | null;
         fullName?: string | null;
     }
+
 }
 
 const ImgButton = ({ profile }: ProfileProps) => {
