@@ -9,10 +9,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const { setLoading } = useLoadingContext();
 
-    useEffect(() => {
-        console.log(user)
-    }, [user])
-
 
     useEffect(() => {
         setLoading(true);

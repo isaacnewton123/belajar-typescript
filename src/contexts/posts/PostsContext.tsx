@@ -4,7 +4,7 @@ import { PostContext } from "./usePostContext";
 import type { Post, Posts } from "@/services/types";
 
 export const PostProvider = ({ children }: PostProviderProps) => {
-    const [posts, setPosts] = useState<Posts|null>(null)
+    const [posts, setPosts] = useState<Posts | null>(null)
     const [singlePost, setSinglePost] = useState<Post | null>(null)
 
     const value = {

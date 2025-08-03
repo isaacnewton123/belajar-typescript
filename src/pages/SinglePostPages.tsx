@@ -13,8 +13,6 @@ const SinglePostPages = () => {
     const { singlePost } = usePostContext()
     const { getComments } = useComment()
 
-    console.log(postId)
-
     useEffect(() => {
         const fetchData = async () => {
             if (postId) {

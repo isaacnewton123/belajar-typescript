@@ -10,8 +10,6 @@ const UserProfilePages = () => {
     const { userProfile } = useUserContext();
     const { getUserProfile } = useUser();
 
-    console.log(" menjalankan versi kode TERBARU dari UserProfilePages");
-
     useEffect(() => {
         if (username) {
             getUserProfile(username);

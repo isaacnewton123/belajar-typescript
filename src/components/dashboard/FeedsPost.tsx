@@ -4,14 +4,15 @@ import PostContent from "@/components/ui/PostContent"
 import CreatePostForm from "@/components/ui/CreatePostForm"
 import { useEffect } from "react"
 import { useFeed } from "@/hooks/useFeed"
+import { useAuthContext } from "@/contexts/auth/useAuthContext"
 
 const FeedsPost = () => {
     const { feeds } = useFeedsContext()
-    const { getPost, likePost, unlikePost } = usePost()
+    const { revwieSinglePost, likePost, unlikePost, deletePost } = usePost()
     const { getFeeds } = useFeed()
-    
-    const feed = feeds?.posts
+    const { user } = useAuthContext()
 
+    const feed = feeds?.posts
 
     useEffect(() => {
         getFeeds(1, 10, true)
@@ -28,9 +29,11 @@ const FeedsPost = () => {
                         <PostContent
                             key={a.id}
                             {...a}
-                            onGetPost={() => getPost(a.id)}
+                            onGetPost={() => revwieSinglePost(a.id)}
                             onLike={() => likePost(a.id)}
                             onUnlike={() => unlikePost(a.id)}
+                            onDelete={() => deletePost(a.id)}
+                            profile={user?.username}
                         />
                     )}
                 </div>

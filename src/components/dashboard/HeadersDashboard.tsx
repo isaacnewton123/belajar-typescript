@@ -7,7 +7,6 @@ import { DropdownMenuTrigger, DropdownMenuContent, DropdownMenu, DropdownMenuGro
 import ImgButton from "@/components/ui/imgButton";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect } from "react";
 import { useUser } from "@/hooks/useUser";
 
 
@@ -16,12 +15,6 @@ const HeadersDashboard = ({ home = 'text-gray-600', search = 'text-gray-600', fe
     const { user } = useAuthContext()
     const { logout } = useAuth()
     const { getProfile } = useUser()
-
-    useEffect(() => {
-
-        console.log(user)
-    }, [user])
-
     return (
         <header className="bg-white shadow-sm sticky top-0 z-40">
             <div className="container mx-auto px-4">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ProviderProps } from './types'
 import Loading from "@/components/ui/loading/Loading";
 import { LoadingContext } from "./useLoadingContext";
@@ -6,9 +6,6 @@ import { LoadingContext } from "./useLoadingContext";
 export const LoadingProvider = ({ children }: ProviderProps) => {
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        console.log(loading)
-    }, [loading])
 
     if (loading === true) {
         return (
