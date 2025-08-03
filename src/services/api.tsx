@@ -119,7 +119,7 @@ export const commentAPI = {
         return response.data
     },
     deleteComment: async (commentId: string): Promise<void> => {
-        await apiClient.delete(`/posts/${commentId}`)
+        await apiClient.delete(`/comments/${commentId}`)
     }
 }
 

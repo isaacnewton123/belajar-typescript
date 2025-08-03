@@ -72,13 +72,15 @@ export const usePost = () => {
                     totalPosts: prev.totalPosts - 1
                 }
             })
+            navigate('/home')
         } catch (error) {
             console.error('cannot Delete Post', error)
             toast.error('Cannot Delete Post , Please Try Again Later')
         } finally {
             setLoading(false)
+
         }
-    }, [setLoading, setPosts])
+    }, [navigate, setLoading, setPosts])
 
     const likePost = useCallback(async (postId: string) => {
         setPosts((prev) => {
@@ -122,7 +124,7 @@ export const usePost = () => {
         })
 
         setSinglePost((prev) => {
-            if(!prev) {
+            if (!prev) {
                 return null
             }
 
@@ -179,7 +181,7 @@ export const usePost = () => {
             })
 
             setSinglePost((prev) => {
-                if(!prev) return null
+                if (!prev) return null
 
                 return {
                     ...prev,
@@ -233,7 +235,7 @@ export const usePost = () => {
         })
 
         setSinglePost((prev) => {
-            if(!prev) return null
+            if (!prev) return null
 
             return {
                 ...prev,
@@ -289,7 +291,7 @@ export const usePost = () => {
             })
 
             setSinglePost((prev) => {
-                if(!prev) return null
+                if (!prev) return null
 
                 return {
                     ...prev,
